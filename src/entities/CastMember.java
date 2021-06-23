@@ -1,9 +1,5 @@
 package entities;
 
-import TADs.arraylist.ListaArray;
-
-import java.nio.charset.StandardCharsets;
-
 public class CastMember {
     private String imdbNameId;
     private String name;
@@ -23,10 +19,10 @@ public class CastMember {
     private Integer divorces;
     private Integer spousesWithChilden;
     private Integer children;
-    private ListaArray<CauseOfDeath> causasDeMuerte;
+    private CauseOfDeath causasDeMuerte;
     private Integer apariciones;
 
-    public CastMember(String imdbNameId, String name, String birthName, Integer height, String bio, Integer birthDate, String birthState, String birthCountry, String birthCity, Integer deathDate, String deathState, String deathCountry, String deathCity, String spousesStirng, Integer spouses, Integer divorces, Integer spousesWithChilden, Integer children, ListaArray<CauseOfDeath> causasDeMuerte) {
+    public CastMember(String imdbNameId, String name, String birthName, Integer height, String bio, Integer birthDate, String birthState, String birthCountry, String birthCity, Integer deathDate, String deathState, String deathCountry, String deathCity, String spousesStirng, Integer spouses, Integer divorces, Integer spousesWithChilden, Integer children, CauseOfDeath causaDeMuerte) {
         this.imdbNameId = imdbNameId;
         this.name = name;
         this.birthName = birthName;
@@ -45,7 +41,7 @@ public class CastMember {
         this.divorces = divorces;
         this.spousesWithChilden = spousesWithChilden;
         this.children = children;
-        this.causasDeMuerte = causasDeMuerte;
+        this.causasDeMuerte = causaDeMuerte;
         this.apariciones = 0;
     }
 
@@ -129,12 +125,13 @@ public class CastMember {
         return children;
     }
 
-    public ListaArray<CauseOfDeath> getCausasDeMuerte() {
+    public CauseOfDeath getCausasDeMuerte() {
         return causasDeMuerte;
     }
 
 
-    // La funcion de hashcode devuelve el codigo ascii de el ImdbNameId
+
+    /*// La funcion de hashcode devuelve el codigo ascii de el ImdbNameId
     public int hashCode(){
 
         Integer devolucion = 0;
@@ -144,7 +141,7 @@ public class CastMember {
             devolucion = devolucion + j;
         }
         return devolucion;
-    }
+    }*/
 
     public boolean equals(Object obj){
         if (this == obj){

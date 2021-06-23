@@ -1,24 +1,30 @@
 package entities;
 
-import java.nio.charset.StandardCharsets;
-
 public class CauseOfDeath {
+
+    private String name;
+    private int cantidadDeFallecidos;
 
     public CauseOfDeath(String name) {
         this.name = name;
+        this.cantidadDeFallecidos = 0;
     }
 
-    private String name;
+
+    public void agregarFallecido(){
+        this.cantidadDeFallecidos++;
+    }
+
+    public int getCantidadDeFallecidos() {
+        return cantidadDeFallecidos;
+    }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    // La funcion de hashcode devuelve el codigo ascii de el nombre de le enfermedad
+    /*// La funcion de hashcode devuelve el codigo ascii de el nombre de le enfermedad
     public int hashCode(){
 
         Integer devolucion = 0;
@@ -28,7 +34,7 @@ public class CauseOfDeath {
             devolucion = devolucion + j;
         }
         return devolucion;
-    }
+    }*/
 
     public boolean equals(Object obj){
         if (this == obj){

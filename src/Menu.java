@@ -78,11 +78,11 @@ public class Menu {
                     }else{// En este caso va a ejectuarse la consulta
                         if(entradaConsultas.equals("1")){
 
-                            nuevaConsulta.consulta1(newUp.getListaMovieCastMmeber().get(0),newUp.getHashCastMember());
+                            nuevaConsulta.consulta1(newUp.getListaMovieCastMmeber().get(0), newUp.getHashCastMember());
 
                         }else if(entradaConsultas.equals("2")){
 
-                            // Aca se llama al metodo que ejecuta la consulta 2
+                            nuevaConsulta.consulta2(newUp.getListaMovieCastMmeber().get(1), newUp.getHashCastMember());
 
                         }else if(entradaConsultas.equals("3")) {
 

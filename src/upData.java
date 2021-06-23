@@ -38,11 +38,12 @@ public class upData {
     public ListaArray<ListaArray<MovieCastMember>> getListaMovieCastMmeber() {
         return listaMovieCastMmeber;
     }
+    public MyHashTable<String,CastMember> hashPaisesDirectores = new MyClosedHashImpl(190055, 0.9999f);
 
     util funciones = new util();
 
     public void upNames() throws IOException {
-        FileReader file = new FileReader("C:\\Users\\flopy\\Desktop\\dataset(1)\\IMDb names.csv");
+        FileReader file = new FileReader("C:\\Users\\Usuario\\Desktop\\UM\\SEMESTRE 3\\PROGRAMACION 2\\DATOSOBLIGATORIO\\IMDb names.csv");
         BufferedReader reader = new BufferedReader(file);
         MyHashTable<String, CauseOfDeath> hashCausasDeMuerte = new MyClosedHashImpl(18294,0.99999f); // El load factor no me importa pues nunca habra rehashing
 
@@ -59,7 +60,7 @@ public class upData {
                 if (line.charAt(current) == '\"') {
                     comillas = !comillas;
                 } else if (line.charAt(current) == ',' && !comillas) {
-                    miniSrtings[columna] = line.substring(start, current);//FIXME
+                    miniSrtings[columna] = line.substring(start, current);
                     columna++;
                     start = current + 1;
                 }
@@ -100,19 +101,15 @@ public class upData {
 
                 }
 
-                ListaArray<CauseOfDeath> listaMuerte = null; // La lista que se le va a asignar a la persona
+                CauseOfDeath causaMuerte = null; // La lista que se le va a asignar a la persona
                 if(!miniSrtings[11].isEmpty()){
-                    String[] cause = funciones.listStringAnd(miniSrtings[11]);
-                    listaMuerte = new ArrayList<>(cause.length);
-                    for (String s : cause) {
-                        CauseOfDeath temp2 = hashCausasDeMuerte.get(s);
-                        if(temp2 == null){
-                            CauseOfDeath causaAAgregar = new CauseOfDeath(s);
-                            hashCausasDeMuerte.put(s,causaAAgregar);
-                            listaMuerte.addLast(causaAAgregar);
-                        }else{
-                            listaMuerte.addLast(temp2);
-                        }
+                    CauseOfDeath temp2 = hashCausasDeMuerte.get(miniSrtings[11]);
+                    if(temp2 == null){
+                        CauseOfDeath causaAAgregar = new CauseOfDeath(miniSrtings[11]);
+                        hashCausasDeMuerte.put(miniSrtings[11], causaAAgregar);
+                        causaMuerte = causaAAgregar;
+                    }else{
+                        causaMuerte = temp2;
                     }
                 }
 
@@ -132,8 +129,8 @@ public class upData {
                 if (!miniSrtings[15].isEmpty()) {
                     children = Integer.parseInt(miniSrtings[16]);
                 }
-                CastMember newMember = new CastMember(miniSrtings[0], miniSrtings[1], miniSrtings[2], height, miniSrtings[4], date_birth, places_birth[1], miniSrtings[6], places_birth[2], date_death, places_death[1], miniSrtings[10], places_death[2],
-                        miniSrtings[12], spouses, divorces, spousesWithChildren, children, listaMuerte);
+                CastMember newMember = new CastMember(miniSrtings[0], miniSrtings[1], miniSrtings[2], height, miniSrtings[4], date_birth, places_birth[1], miniSrtings[7], places_birth[2], date_death, places_death[1], miniSrtings[10], places_death[2],
+                        miniSrtings[12], spouses, divorces, spousesWithChildren, children, causaMuerte);
                 // Agrego Cast Member a las estructuras
 
                 hashCastMember.put(miniSrtings[0], newMember);
@@ -145,7 +142,7 @@ public class upData {
         System.out.println(" La cantidad de causas de muerte diferentes en el hash de causas de muerte es : " + hashCausasDeMuerte.getSize());
     }
     public void upMovies() throws IOException {
-        FileReader fr = new FileReader("C:\\Users\\flopy\\Desktop\\dataset(1)\\IMDb movies.csv");
+        FileReader fr = new FileReader("C:\\Users\\Usuario\\Desktop\\UM\\SEMESTRE 3\\PROGRAMACION 2\\DATOSOBLIGATORIO\\IMDb movies.csv");
         BufferedReader reader = new BufferedReader(fr);
         String[] miniSrtings = new String[22];
         reader.readLine(); //Para saltear la primera linea que es la que contiene info innecesaria
@@ -249,7 +246,7 @@ public class upData {
         listaMovieCastMmeber.add(listaOtros,2); // listaMovieCastMmeber[2] = listaOtros
 
 
-        FileReader fr = new FileReader("C:\\Users\\flopy\\Desktop\\dataset(1)\\IMDb title_principals.csv");
+        FileReader fr = new FileReader("C:\\Users\\Usuario\\Desktop\\UM\\SEMESTRE 3\\PROGRAMACION 2\\DATOSOBLIGATORIO\\IMDb title_principals.csv");
         BufferedReader reader = new BufferedReader(fr);
         util funciones = new util();
         String[] miniSrtings = new String[6];
@@ -300,7 +297,7 @@ public class upData {
 
     public void upMRatin() throws IOException {
 
-        FileReader file = new FileReader("C:\\Users\\flopy\\Desktop\\dataset(1)\\IMDb ratings.csv");
+        FileReader file = new FileReader("C:\\Users\\Usuario\\Desktop\\UM\\SEMESTRE 3\\PROGRAMACION 2\\DATOSOBLIGATORIO\\IMDb ratings.csv");
         BufferedReader reader = new BufferedReader(file);
         String[] miniSrtings = new String[49];
         reader.readLine(); //Para saltear la primera linea que es la que contiene info innecesaria

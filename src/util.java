@@ -2,6 +2,8 @@
 
 import TADs.arraylist.ArrayList;
 import TADs.arraylist.ListaArray;
+import entities.CastMember;
+import entities.CauseOfDeath;
 import entities.Rating;
 
 public class util {
@@ -51,9 +53,9 @@ public class util {
     }
 
 
-    public String[] listStringAnd(String intialString) {
+    /*public String[] listStringAnd(String intialString) {
         return intialString.split(" and |,");
-    }
+    }*/
 
     public ListaArray<Rating> listRatings(String[] fraccion) {
         ListaArray<Rating> returnList = new ArrayList<>((fraccion.length) / 2);
@@ -84,6 +86,8 @@ public class util {
 
         return newRating;
     }
+
+
 }
 
 

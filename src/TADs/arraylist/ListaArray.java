@@ -13,5 +13,6 @@ public interface ListaArray<T>  {
     boolean replaceOrAddLast(T value);
     boolean removeElement(T value);
     void addPisando(T value, int position);
+    void intercambiarMedio(int pos);
 
 }
