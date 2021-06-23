@@ -1,5 +1,6 @@
 package entities;
 
+import TADs.arraylist.ArrayList;
 import TADs.arraylist.ListaArray;
 
 import java.nio.charset.StandardCharsets;
@@ -29,6 +30,7 @@ public class Movie {
     private Float reviewsFromUsers;
     private Float reviewsFromCritics;
     private MovieRating movieRating;
+    private ListaArray<MovieCastMember> movieCastMember;
 
 
     public Movie(String imdbTitleld, String title, String orginalTitle, Integer year, Integer datePublished, ListaArray<String> genre, Integer duration, ListaArray<String> country, String language, ListaArray<String> director, ListaArray<String> writer, String productionCompany, ListaArray<String> actors, String description, Float avgVote, Integer votes, String budget, String usaGrossIncome, String worldwideGrossIncome, Float metaScore, Float reviewsFromUsers, Float reviewsFromCritics) {
@@ -55,6 +57,7 @@ public class Movie {
         this.reviewsFromUsers = reviewsFromUsers;
         this.reviewsFromCritics = reviewsFromCritics;
         this.movieRating = null;
+        this.movieCastMember = new ArrayList<>(100);
     }
 
     public String getImdbTitleld() {
@@ -147,6 +150,18 @@ public class Movie {
 
     public void setMovieRating(MovieRating movieRating){
         this.movieRating = movieRating;
+    }
+
+    public MovieRating getMovieRating() {
+        return movieRating;
+    }
+
+    public void agregarMovieCastMember(MovieCastMember mcmAgregar){
+        this.movieCastMember.addLast(mcmAgregar);
+    }
+
+    public ListaArray<MovieCastMember> getMovieCastMember() {
+        return movieCastMember;
     }
 
     /*// La funcion de hashcode devuelve el codigo ascii de el imdbTitleld

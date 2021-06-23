@@ -37,13 +37,8 @@ public class MyHeapImpl <K extends Comparable<K>,T> implements MyHeap<K,T> {
 
 
     @Override
-    public void insert(K key,T value) throws InvalidInformation {
+    public void insert(K key,T value)  {
 
-        /*for (int i = 0; i < size; i++){ // Controlo que no este, como lo hago mas efectivo?? Tengo que controlar que sea comparable tambien??
-            if(values[i].getKey().equals(key)){
-                throw new InvalidInformation();
-            }
-        }*/
 
         if(this.size == this.values.length){
             NodeHeap<K,T>[] valuesnuevo = new NodeHeap[size * 2];
@@ -80,11 +75,7 @@ public class MyHeapImpl <K extends Comparable<K>,T> implements MyHeap<K,T> {
     }
 
     @Override
-    public T delete() throws EmptyHeapExcepcion {
-
-        if (this.size == 0) {  // En este caso no tengo elementos en el Heap
-            throw new EmptyHeapExcepcion();
-        }
+    public T delete() {
 
 
         T devolucion = values[0].getValue(); //Aca guardo lo que voy a devolver

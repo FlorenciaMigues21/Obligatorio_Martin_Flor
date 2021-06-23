@@ -1,5 +1,8 @@
 package entities;
 
+import TADs.arraylist.ArrayList;
+import TADs.arraylist.ListaArray;
+
 public class CastMember {
     private String imdbNameId;
     private String name;
@@ -21,6 +24,8 @@ public class CastMember {
     private Integer children;
     private CauseOfDeath causasDeMuerte;
     private Integer apariciones;
+    private boolean loagregue;
+    private ListaArray<MovieCastMember> movieCastMember;
 
     public CastMember(String imdbNameId, String name, String birthName, Integer height, String bio, Integer birthDate, String birthState, String birthCountry, String birthCity, Integer deathDate, String deathState, String deathCountry, String deathCity, String spousesStirng, Integer spouses, Integer divorces, Integer spousesWithChilden, Integer children, CauseOfDeath causaDeMuerte) {
         this.imdbNameId = imdbNameId;
@@ -43,6 +48,8 @@ public class CastMember {
         this.children = children;
         this.causasDeMuerte = causaDeMuerte;
         this.apariciones = 0;
+        this.loagregue = false;
+        this.movieCastMember = new ArrayList<>(100);
     }
 
     public Integer getApariciones() {
@@ -129,7 +136,21 @@ public class CastMember {
         return causasDeMuerte;
     }
 
+    public boolean isLoagregue() {
+        return loagregue;
+    }
 
+    public void setLoagregue() {
+        this.loagregue = true;
+    }
+
+    public void agregarMovieCastMember(MovieCastMember movieCastMember){
+        this.movieCastMember.addLast(movieCastMember);
+    }
+
+    public ListaArray<MovieCastMember> getMovieCastMember() {
+        return movieCastMember;
+    }
 
     /*// La funcion de hashcode devuelve el codigo ascii de el ImdbNameId
     public int hashCode(){

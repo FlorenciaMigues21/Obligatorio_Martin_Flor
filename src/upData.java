@@ -24,9 +24,10 @@ public class upData {
     private ListaArray<MovieRating> listMovieRaiting = new ArrayList<>(85856);*/
 
     // Inicializacion de las estructuras donde guardaremos los datos
-    private MyHashTable<String, CastMember> hashCastMember = new MyClosedHashImpl(297706,1f);
+    private MyHashTable<String, CastMember> hashCastMember = new MyClosedHashImpl<>(297706,1f);
     private MyHashTable<String,Movie> hashPeliculas = new MyClosedHashImpl<>(85856, 1f);
     private ListaArray<ListaArray<MovieCastMember>> listaMovieCastMmeber = new ArrayList<>(3);
+    public ListaArray<ListaArray<Movie>> listaPeliculasPorAño = new ArrayList<>(9);
 
     //Getters de las estructuras
     public MyHashTable<String, CastMember> getHashCastMember() {
@@ -38,7 +39,10 @@ public class upData {
     public ListaArray<ListaArray<MovieCastMember>> getListaMovieCastMmeber() {
         return listaMovieCastMmeber;
     }
-    public MyHashTable<String,CastMember> hashPaisesDirectores = new MyClosedHashImpl(190055, 0.9999f);
+
+    public ListaArray<ListaArray<Movie>> getListaPeliculasPorAño() {
+        return listaPeliculasPorAño;
+    }
 
     util funciones = new util();
 
@@ -71,6 +75,8 @@ public class upData {
                 Integer height = null;
                 if (!miniSrtings[3].isEmpty()) {
                     height = Integer.parseInt(miniSrtings[3]);
+                }else{
+                    height = 0;
                 }
                 //El ministring[5] no tiene info util
                 Integer date_birth = null;
@@ -151,6 +157,15 @@ public class upData {
         int columna = 0;
         int current;
         boolean comillas = false;
+        ListaArray<Movie> primera = new ArrayList<>(100);
+        ListaArray<Movie> segunda = new ArrayList<>(100);
+        ListaArray<Movie> tercera = new ArrayList<>(100);
+        ListaArray<Movie> cuarta = new ArrayList<>(100);
+        ListaArray<Movie> quinta = new ArrayList<>(100);
+        ListaArray<Movie> sexta = new ArrayList<>(100);
+        ListaArray<Movie> septima = new ArrayList<>(100);
+        ListaArray<Movie> octava = new ArrayList<>(100);
+        ListaArray<Movie> novena = new ArrayList<>(100);
         while ((line = reader.readLine()) != null) {
             start = 0;
             for (current = 0; current < line.length(); current++) {
@@ -166,18 +181,20 @@ public class upData {
                 miniSrtings[columna] = line.substring(start, current);
 
                 Integer year = null;
+                double bucket = -1;
                 if (!miniSrtings[3].isEmpty()) {
                     try {
                         year = Integer.parseInt(miniSrtings[3]);
-                    }catch (Exception e){
-                        year = null;
+                        bucket = Math.floor((year - 1890) / 15) + 1;
+                    } catch (Exception e) {
+                        //
                     }
                 }
                 Integer datePublished = null;
                 if (!miniSrtings[4].isEmpty()) {
-                    try{
-                        datePublished = Integer.parseInt(miniSrtings[4].substring(0,3));
-                    }catch(Exception e){
+                    try {
+                        datePublished = Integer.parseInt(miniSrtings[4].substring(0, 3));
+                    } catch (Exception e) {
                         // NO hago nada. Solo no quiero que me salte la excepcion
                     }
                 }
@@ -186,52 +203,80 @@ public class upData {
                     genre = funciones.listStringsComa(miniSrtings[5]);
                 }
                 Integer duration = null;
-                if(!miniSrtings[6].isEmpty()){
+                if (!miniSrtings[6].isEmpty()) {
                     duration = Integer.parseInt(miniSrtings[6]);
                 }
                 ListaArray<String> country = null;
-                if(!miniSrtings[7].isEmpty()){
-                    country=funciones.listStringsComa(miniSrtings[7]);
+                if (!miniSrtings[7].isEmpty()) {
+                    country = funciones.listStringsComa(miniSrtings[7]);
                 }
                 ListaArray<String> director = null;
-                if(!miniSrtings[9].isEmpty()){
+                if (!miniSrtings[9].isEmpty()) {
                     director = funciones.listStringsComa(miniSrtings[9]);
                 }
                 ListaArray<String> writers = null;
-                if(!miniSrtings[10].isEmpty()){
+                if (!miniSrtings[10].isEmpty()) {
                     writers = funciones.listStringsComa(miniSrtings[10]);
                 }
                 ListaArray<String> actors = null;
-                if(!miniSrtings[12].isEmpty()){
+                if (!miniSrtings[12].isEmpty()) {
                     actors = funciones.listStringsComa(miniSrtings[12]);
                 }
                 Float avgVote = null;
-                if(!miniSrtings[14].isEmpty()){
+                if (!miniSrtings[14].isEmpty()) {
                     avgVote = Float.parseFloat(miniSrtings[14]);
                 }
                 Integer votes = null;
-                if(!miniSrtings[15].isEmpty()){
+                if (!miniSrtings[15].isEmpty()) {
                     votes = Integer.parseInt(miniSrtings[15]);
                 }
-                Float metaScore= null;
-                if(!miniSrtings[19].isEmpty()){
+                Float metaScore = null;
+                if (!miniSrtings[19].isEmpty()) {
                     metaScore = Float.parseFloat(miniSrtings[19]);
                 }
                 Float reviewsFromUsers = null;
-                if(!miniSrtings[20].isEmpty()){
-                    reviewsFromUsers =Float.parseFloat(miniSrtings[20]);
+                if (!miniSrtings[20].isEmpty()) {
+                    reviewsFromUsers = Float.parseFloat(miniSrtings[20]);
                 }
                 Float reviewsFromCritics = null;
-                if(!miniSrtings[21].isEmpty()){
-                    reviewsFromCritics=Float.parseFloat(miniSrtings[21]);
+                if (!miniSrtings[21].isEmpty()) {
+                    reviewsFromCritics = Float.parseFloat(miniSrtings[21]);
                 }
-                Movie newMovie = new Movie(miniSrtings[0],miniSrtings[1],miniSrtings[2],year,datePublished,genre,duration,country,miniSrtings[8],
-                        director,writers,miniSrtings[11],actors,miniSrtings[13],avgVote,votes,miniSrtings[16],miniSrtings[17],miniSrtings[18],metaScore,reviewsFromUsers,reviewsFromCritics);
+                Movie newMovie = new Movie(miniSrtings[0], miniSrtings[1], miniSrtings[2], year, datePublished, genre, duration, country, miniSrtings[8],
+                        director, writers, miniSrtings[11], actors, miniSrtings[13], avgVote, votes, miniSrtings[16], miniSrtings[17], miniSrtings[18], metaScore, reviewsFromUsers, reviewsFromCritics);
                 hashPeliculas.put(miniSrtings[0], newMovie);
-                columna=0;
+                columna = 0;
+
+                if (bucket == 1) {
+                    primera.addLast(newMovie);
+                } else if (bucket == 2) {
+                    segunda.addLast(newMovie);
+                } else if (bucket == 3) {
+                    tercera.addLast(newMovie);
+                } else if (bucket == 4) {
+                    cuarta.addLast(newMovie);
+                } else if (bucket == 5) {
+                    quinta.addLast(newMovie);
+                } else if (bucket == 6) {
+                    sexta.addLast(newMovie);
+                } else if (bucket == 7) {
+                    septima.addLast(newMovie);
+                } else if (bucket == 8) {
+                    octava.addLast(newMovie);
+                } else {
+                    novena.addLast(newMovie);
+                }
             }
         }
-        System.out.println(" La cantidad de movies que hay es : " + hashPeliculas.getSize());
+        listaPeliculasPorAño.addLast(primera);
+        listaPeliculasPorAño.addLast(segunda);
+        listaPeliculasPorAño.addLast(tercera);
+        listaPeliculasPorAño.addLast(cuarta);
+        listaPeliculasPorAño.addLast(quinta);
+        listaPeliculasPorAño.addLast(sexta);
+        listaPeliculasPorAño.addLast(septima);
+        listaPeliculasPorAño.addLast(octava);
+        listaPeliculasPorAño.addLast(novena);
     }
 
     public void uPTitle() throws IOException { //HAY QUE VERIFICAR QUE ESTO ESTE BIEN FIXME
@@ -286,6 +331,8 @@ public class upData {
                     //LO INGRESO A OTROS
                     listaMovieCastMmeber.get(2).addLast(newMC);
                 }
+                hashPeliculas.get(miniSrtings[0]).agregarMovieCastMember(newMC);
+                hashCastMember.get(miniSrtings[2]).agregarMovieCastMember(newMC);
                 columna=0;
             }
         }
