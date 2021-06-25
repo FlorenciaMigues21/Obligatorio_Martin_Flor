@@ -72,7 +72,11 @@ public class ArrayList<T> implements ListaArray<T> {
 
     @Override
     public void remove(int position) {
-        //no necesito
+        if(position > 0 && position < this.list.length){
+            this.list[position] = null;
+            size--;
+        }
+        // Sino ignoro
     }
 
     @Override

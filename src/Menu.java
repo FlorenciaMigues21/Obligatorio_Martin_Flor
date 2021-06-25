@@ -79,7 +79,7 @@ public class Menu {
 
                 } else if (entradaConsultas.equals("3")) {
 
-                    nuevaConsulta.consulta3(newUp.getListaPeliculasPorAño(), newUp.getHashCastMember());
+                    //nuevaConsulta.consulta3(newUp.getListaPeliculasPorAño(), newUp.getHashCastMember());
 
                 } else if (entradaConsultas.equals("4")) {
 
