@@ -75,7 +75,7 @@ public class Consultas {
 
                 CastMember temp = hashCast.get(listaProdDir.get(i).getImdbNameId());
 
-                if(!temp.isLoagregue() && temp.getCausasDeMuerte() != null && !(temp.getCausasDeMuerte().getName().toLowerCase().contains("undisclosed")) && (temp.getBirthCountry().contains("UK") || temp.getBirthCountry().contains("USA") || temp.getBirthCountry().contains("France") || temp.getBirthCountry().contains("Italy"))){
+                if(!temp.isLoagregue() && temp.getCausasDeMuerte() != null && (temp.getBirthCountry().contains("UK") || temp.getBirthCountry().contains("USA") || temp.getBirthCountry().contains("France") || temp.getBirthCountry().contains("Italy"))){
                     CauseOfDeath causa = temp.getCausasDeMuerte();
                     causa.agregarFallecido(); // Le agrego un muerto a la causa de muerte
                     if(this.listaTop5Death.size() < 5) {
@@ -121,26 +121,30 @@ public class Consultas {
                 float promedio = 0;
                 int divisor = 0;
                 for (int j = 0; j < temp3.getMovieCastMember().size(); j++) {
-                    if (temp3.getMovieCastMember().get(j).getCategory().toLowerCase().contains("actor") || temp3.getMovieCastMember().get(j).getCategory().toLowerCase().contains("actress")) {
-                        int temp4 = hashCastMmeber.get(temp3.getMovieCastMember().get(j).getImdbNameId()).getHeight();
+                    MovieCastMember mcm = temp3.getMovieCastMember().get(j);
+                    if (mcm.getCategory().toLowerCase().contains("actor") || mcm.getCategory().toLowerCase().contains("actress")) {
+                        int temp4 = hashCastMmeber.get(mcm.getImdbNameId()).getHeight();
                         promedio = promedio + temp4;
                         if (temp4 != 0) {
                             divisor++;
                         }
-                        this.listaPromedios.addLast(promedio / divisor);
                     }
                 }
+                this.listaPromedios.addLast(promedio / divisor);
             }
             seRealizoConsulta3 = true;
         }
         for(int i = 0; i < 14; i++){
-            if(this.listaPromedios.get(i) != 0){
+            if(!this.listaPromedios.get(i).isNaN()){
                 System.out.println("\nId película: " + this.listaPeliMasWA.get(i).getImdbTitleld() + "\nNombre: " + this.listaPeliMasWA.get(i).getTitle() + "\nAltura promedio de actores: " + listaPromedios.get(i));
             }
         }
     }
 
+    // Consulta 4
+    public void consulta4(){
 
+    }
 
 
     public MyHeap<Float, Movie> heapSort(ListaArray<Movie> lista) {

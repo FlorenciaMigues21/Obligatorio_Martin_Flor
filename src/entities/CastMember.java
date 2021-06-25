@@ -25,6 +25,7 @@ public class CastMember {
     private CauseOfDeath causasDeMuerte;
     private Integer apariciones;
     private boolean loagregue;
+    // Movie Cast Member
     private ListaArray<MovieCastMember> movieCastMember;
 
     public CastMember(String imdbNameId, String name, String birthName, Integer height, String bio, Integer birthDate, String birthState, String birthCountry, String birthCity, Integer deathDate, String deathState, String deathCountry, String deathCity, String spousesStirng, Integer spouses, Integer divorces, Integer spousesWithChilden, Integer children, CauseOfDeath causaDeMuerte) {

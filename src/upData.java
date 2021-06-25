@@ -49,7 +49,7 @@ public class upData {
     public void upNames() throws IOException {
         FileReader file = new FileReader("C:\\Users\\Usuario\\Desktop\\UM\\SEMESTRE 3\\PROGRAMACION 2\\DATOSOBLIGATORIO\\IMDb names.csv");
         BufferedReader reader = new BufferedReader(file);
-        MyHashTable<String, CauseOfDeath> hashCausasDeMuerte = new MyClosedHashImpl(18294,0.99999f); // El load factor no me importa pues nunca habra rehashing
+        MyHashTable<String, CauseOfDeath> hashCausasDeMuerte = new MyClosedHashImpl<>(1976,0.99999f); // El load factor no me importa pues nunca habra rehashing
 
         String[] miniSrtings = new String[17];
         reader.readLine(); //Para saltear la primera linea que es la que contiene info innecesaria
@@ -157,15 +157,15 @@ public class upData {
         int columna = 0;
         int current;
         boolean comillas = false;
-        ListaArray<Movie> primera = new ArrayList<>(100);
-        ListaArray<Movie> segunda = new ArrayList<>(100);
-        ListaArray<Movie> tercera = new ArrayList<>(100);
-        ListaArray<Movie> cuarta = new ArrayList<>(100);
-        ListaArray<Movie> quinta = new ArrayList<>(100);
-        ListaArray<Movie> sexta = new ArrayList<>(100);
-        ListaArray<Movie> septima = new ArrayList<>(100);
-        ListaArray<Movie> octava = new ArrayList<>(100);
-        ListaArray<Movie> novena = new ArrayList<>(100);
+        ListaArray<Movie> primera = new ArrayList<>(1);
+        ListaArray<Movie> segunda = new ArrayList<>(205);
+        ListaArray<Movie> tercera = new ArrayList<>(1887);
+        ListaArray<Movie> cuarta = new ArrayList<>(4469);
+        ListaArray<Movie> quinta = new ArrayList<>(6312);
+        ListaArray<Movie> sexta = new ArrayList<>(8949);
+        ListaArray<Movie> septima = new ArrayList<>(11356);
+        ListaArray<Movie> octava = new ArrayList<>(23349);
+        ListaArray<Movie> novena = new ArrayList<>(29327);
         while ((line = reader.readLine()) != null) {
             start = 0;
             for (current = 0; current < line.length(); current++) {

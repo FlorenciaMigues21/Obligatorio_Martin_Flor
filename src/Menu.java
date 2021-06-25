@@ -39,17 +39,17 @@ public class Menu {
         upData newUp = new upData();
         Consultas nuevaConsulta = new Consultas();
         while (true) {
-            System.out.println("Seleccione la opción que desee:\n1.Carga de datos\n2.Ejecutar consultas\n3.Salir");
+            System.out.println("\nSeleccione la opción que desee:\n1.Carga de datos\n2.Ejecutar consultas\n3.Salir");
             Scanner entradaScanMenu = new Scanner(System.in);
             String entradaMenu = entradaScanMenu.nextLine();
             if (!numberIsCorrect(entradaMenu, 1, 3)) {
-                System.out.println("Dato mal ingresado, intente ingresarlo nuevamente");
+                System.out.println("\nDato mal ingresado, intente ingresarlo nuevamente");
             } else if (entradaMenu.equals("1")) {
                 cargaDeDatos(newUp);
             } else if (entradaMenu.equals("2")) {
                 consultas(nuevaConsulta, newUp);
             } else { // (NroMenu.equals("3")) Ya habia controlado arriba que el numero este entre 1 y 3 por lo que este es el caso de que digite 3.
-                System.out.println("Se terminó el programa");
+                System.out.println("\nSe terminó el programa");
                 break;
             }
 
@@ -59,7 +59,7 @@ public class Menu {
 
     public static void consultas (Consultas nuevaConsulta, upData newUp){
         while (true) {
-            System.out.println("1.Indicar el Top 5 de actores/actrices que más apariciones han tenido a lo largo de los años." + "\n2.Indicar el Top 5 de las causas de muerte más frecuentes en directores y productores nacidos en Italia, Estados Unidos, Francia y UK." +
+            System.out.println("\n1.Indicar el Top 5 de actores/actrices que más apariciones han tenido a lo largo de los años." + "\n2.Indicar el Top 5 de las causas de muerte más frecuentes en directores y productores nacidos en Italia, Estados Unidos, Francia y UK." +
                     "\n3.Mostrar de las 14 películas con más weightedAverage, el promedio de altura de sus actores/actrices si su valor es distinto de nulo." +
                     "\n4.Indicar el año más habitual en el que nacen los actores y las actrices." +
                     "\n5.Indicar  el  Top 10 de géneros  de películas  más  populares,  en  las cuales al menos un actor/actriz tiene 2 o más hijos." +
