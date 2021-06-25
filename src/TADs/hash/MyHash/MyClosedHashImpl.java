@@ -56,6 +56,7 @@ public class MyClosedHashImpl<K,V> implements MyHashTable<K,V>{
 
 
 
+
     private boolean numeroEsPrimo(int numero){
         boolean devolucion = true;
         for(int i = 2; i < numero; i++){

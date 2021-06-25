@@ -26,12 +26,34 @@ public class Menu {
     }
 
     public static void cargaDeDatos(upData newUp) throws IOException {
+        long firstTime = System.nanoTime();
+        //long startTime = System.nanoTime();
         newUp.upNames();
+        //long stopTime = System.nanoTime();
+        //long dif = stopTime - startTime;
+        //double time = (double) dif/1_000_000_000;
+        //System.out.println(time);
+        //startTime = System.nanoTime();
         newUp.upMovies();
+        //stopTime = System.nanoTime();
+        //dif = stopTime - startTime;
+        //time = (double) dif/1000000000;
+        //System.out.println(time);
+        //startTime = System.nanoTime();
         newUp.uPTitle();
+        //stopTime = System.nanoTime();
+        //dif = stopTime - startTime;
+        //time = (double) dif/1000000000;
+        //System.out.println(time);
+        //startTime = System.nanoTime();
         newUp.upMRatin();
-
-        System.out.println("Carga de datos exitosa, tiempo de ejecución de la carga:" + "PONER ACA TIEMPO DE CARGA DE DATOS");
+        //stopTime = System.nanoTime();
+        //dif = stopTime - startTime;
+        //time = (double) dif/1000000000;
+        long lastTime = System.nanoTime();
+        long dif2 = lastTime - firstTime;
+        double timeTotal = (double) dif2/1000000000;
+        System.out.println("\nCarga de datos exitosa, tiempo de ejecución de la carga:" + timeTotal + "\n");
     }
 
 

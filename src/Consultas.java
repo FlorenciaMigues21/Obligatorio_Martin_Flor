@@ -26,7 +26,7 @@ public class Consultas {
 
     //Consulta 1
     public void consulta1(ListaArray<MovieCastMember> listaActores, MyHashTable<String, CastMember> hashCast) {
-
+        long firstTime = System.nanoTime();
         ListaArray<CastMember> listaTop5 = new ArrayList<>(5);
         for (int j = 0; j < 5; j++) { // No se contempla que entre los perimero 5 castmembers este el mismo ya que es un caso irreale (para eso necesito, al menos, una pelicula de integrantes en total)
             listaTop5.addLast(hashCast.get(listaActores.get(j).getImdbNameId()));
@@ -42,9 +42,13 @@ public class Consultas {
             }
         }
         // Imprimo en pantalla lo correspondiente a la consulta 1
+        long lastTime = System.nanoTime();
+        long dif2 = lastTime - firstTime;
+        double timeTotal = (double) dif2/1000000000;
         for (int k = 0; k < 5; k++) {
             System.out.println("\nNombre actor/actriz: " + listaTop5.get(k).getName() + "\nCantidad de apariciones : " + listaTop5.get(k).getMovieCastMemberActor().size() + "\n");
         }
+        System.out.println( "\nTiempo deejecuciónde la consulta:" + "\n" + timeTotal);
     }
 
     public int ordenarYMinima(ListaArray<CastMember> lista, CastMember castAgregar){
@@ -70,11 +74,10 @@ public class Consultas {
 
     public void consulta2(ListaArray<MovieCastMember> listaProdDir, MyHashTable<String, CastMember> hashCast){
 
-
+        long firstTime = System.nanoTime();
         ListaArray<CauseOfDeath> listaTop5Death = new ArrayList<>(5);
         MyHashTable<String,Integer> HashCantCausas = new MyClosedHashImpl<>(2000,1f);
         MyHashTable<String,CastMember> HashProdDir = new MyClosedHashImpl<>(500,1f);
-
 
         for(int i = 0; i < listaProdDir.size(); i++){ //  Recorro la lista de productores y directores
             CastMember temp = hashCast.get(listaProdDir.get(i).getImdbNameId());
@@ -82,7 +85,9 @@ public class Consultas {
                     HashProdDir.put(temp.getImdbNameId(), temp);
                     Integer causa = HashCantCausas.get(temp.getCausasDeMuerte().getName());
                     if (causa != null) {
-                        HashCantCausas.put(temp.getCausasDeMuerte().getName(), causa++);//SET SE LE SUMA
+                        causa++;
+                        HashCantCausas.put(temp.getCausasDeMuerte().getName(), causa);//SET SE LE SUMA
+                        causa = HashCantCausas.get(temp.getCausasDeMuerte().getName());
                     } else {
                         HashCantCausas.put(temp.getCausasDeMuerte().getName(), 1);
                         causa = HashCantCausas.get(temp.getCausasDeMuerte().getName());
@@ -101,10 +106,14 @@ public class Consultas {
                     }
                 }
         }
+        long lastTime = System.nanoTime();
+        long dif2 = lastTime - firstTime;
+        double timeTotal = (double) dif2/1000000000;
         // Imprimo en pantalla lo correspondiente a la consulta 2
         for (int k = 0; k < 5; k++) {
             System.out.println("\nCausa de muerte: " + listaTop5Death.get(k).getName() + "\nCantidad de personas: " + HashCantCausas.get(listaTop5Death.get(k).getName()) + "\n");
         }
+        System.out.println( "\nTiempo deejecuciónde la consulta:" + "\n" + timeTotal);
     }
 
 

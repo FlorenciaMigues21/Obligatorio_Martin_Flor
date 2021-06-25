@@ -41,7 +41,7 @@ public class upData {
     util funciones = new util();
 
     public void upNames() throws IOException {
-        FileReader file = new FileReader("C:\\Users\\Usuario\\Desktop\\UM\\SEMESTRE 3\\PROGRAMACION 2\\DATOSOBLIGATORIO\\IMDb names.csv");
+        FileReader file = new FileReader("C:\\Users\\flopy\\Desktop\\dataset(1)\\IMDb names.csv");
         BufferedReader reader = new BufferedReader(file);
         MyHashTable<String, CauseOfDeath> hashCausasDeMuerte = new MyClosedHashImpl<>(1976,0.99999f); // El load factor no me importa pues nunca habra rehashing
 
@@ -142,7 +142,7 @@ public class upData {
         System.out.println(" La cantidad de causas de muerte diferentes en el hash de causas de muerte es : " + hashCausasDeMuerte.getSize());
     }
     public void upMovies() throws IOException {
-        FileReader fr = new FileReader("C:\\Users\\Usuario\\Desktop\\UM\\SEMESTRE 3\\PROGRAMACION 2\\DATOSOBLIGATORIO\\IMDb movies.csv");
+        FileReader fr = new FileReader("C:\\Users\\flopy\\Desktop\\dataset(1)\\IMDb movies.csv");
         BufferedReader reader = new BufferedReader(fr);
         String[] miniSrtings = new String[22];
         reader.readLine(); //Para saltear la primera linea que es la que contiene info innecesaria
@@ -263,29 +263,38 @@ public class upData {
             }
         }
         listaPeliculasPorAño.addLast(primera);
+        System.out.println(primera.size());
         listaPeliculasPorAño.addLast(segunda);
+        System.out.println(segunda.size());
         listaPeliculasPorAño.addLast(tercera);
+        System.out.println(tercera.size());
         listaPeliculasPorAño.addLast(cuarta);
+        System.out.println(cuarta.size());
         listaPeliculasPorAño.addLast(quinta);
+        System.out.println(quinta.size());
         listaPeliculasPorAño.addLast(sexta);
+        System.out.println(sexta.size());
         listaPeliculasPorAño.addLast(septima);
+        System.out.println(septima.size());
         listaPeliculasPorAño.addLast(octava);
+        System.out.println(octava.size());
         listaPeliculasPorAño.addLast(novena);
+        System.out.println(novena.size());
     }
 
     public void uPTitle() throws IOException { //HAY QUE VERIFICAR QUE ESTO ESTE BIEN FIXME
 
         // Inicializo las tres listas de movie cast member de manera conveniente
-        ListaArray<MovieCastMember> listaActores = new ArrayList<>(355742);
-        ListaArray<MovieCastMember> listaProdDir = new ArrayList<>(190054);
-        ListaArray<MovieCastMember> listaOtros = new ArrayList<>(289697); // Vease que la lista de otros podria, para hcer de este un mejor programa, dividirse en fotografos, camaras, etc
+        ListaArray<MovieCastMember> listaActores = new ArrayList<>(355770);
+        ListaArray<MovieCastMember> listaProdDir = new ArrayList<>(190070);
+        ListaArray<MovieCastMember> listaOtros = new ArrayList<>(289700); // Vease que la lista de otros podria, para hcer de este un mejor programa, dividirse en fotografos, camaras, etc
 
         listaMovieCastMmeber.add(listaActores,0);// listaMovieCastMmeber[0] = listaActores
         listaMovieCastMmeber.add(listaProdDir,1); //listaMovieCastMmeber[1] = listaProdDir
         listaMovieCastMmeber.add(listaOtros,2); // listaMovieCastMmeber[2] = listaOtros
 
 
-        FileReader fr = new FileReader("C:\\Users\\Usuario\\Desktop\\UM\\SEMESTRE 3\\PROGRAMACION 2\\DATOSOBLIGATORIO\\IMDb title_principals.csv");
+        FileReader fr = new FileReader("C:\\Users\\flopy\\Desktop\\dataset(1)\\IMDb title_principals.csv");
         BufferedReader reader = new BufferedReader(fr);
         util funciones = new util();
         String[] miniSrtings = new String[6];
@@ -342,7 +351,7 @@ public class upData {
 
     public void upMRatin() throws IOException {
 
-        FileReader file = new FileReader("C:\\Users\\Usuario\\Desktop\\UM\\SEMESTRE 3\\PROGRAMACION 2\\DATOSOBLIGATORIO\\IMDb ratings.csv");
+        FileReader file = new FileReader("C:\\Users\\flopy\\Desktop\\dataset(1)\\IMDb ratings.csv");
         BufferedReader reader = new BufferedReader(file);
         String[] miniSrtings = new String[49];
         reader.readLine(); //Para saltear la primera linea que es la que contiene info innecesaria
