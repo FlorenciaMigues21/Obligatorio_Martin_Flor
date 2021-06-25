@@ -23,9 +23,6 @@ public class CastMember {
     private Integer spousesWithChilden;
     private Integer children;
     private CauseOfDeath causasDeMuerte;
-    private Integer apariciones;
-    private boolean loagregue;
-
 
     // MovieCastMemberActor
     private ListaArray<MovieCastMember> movieCastMemberActor;
@@ -34,7 +31,7 @@ public class CastMember {
     private  ListaArray<MovieCastMember> movieCastMemberDirProd;
 
     // MovieCastMemberOtros
-
+    private ListaArray<MovieCastMember> moviCastMemberOtros;
 
     public CastMember(String imdbNameId, String name, String birthName, Integer height, String bio, Integer birthDate, String birthState, String birthCountry, String birthCity, Integer deathDate, String deathState, String deathCountry, String deathCity, String spousesStirng, Integer spouses, Integer divorces, Integer spousesWithChilden, Integer children, CauseOfDeath causaDeMuerte) {
         this.imdbNameId = imdbNameId;
@@ -56,18 +53,12 @@ public class CastMember {
         this.spousesWithChilden = spousesWithChilden;
         this.children = children;
         this.causasDeMuerte = causaDeMuerte;
-        this.apariciones = 0;
-        this.loagregue = false;
-        this.movieCastMember = new ArrayList<>(100);
+        this.movieCastMemberActor = new ArrayList<>(50);
+        this.movieCastMemberDirProd = new ArrayList<>(50);
+        this.moviCastMemberOtros = new ArrayList<>(50);
     }
 
-    public Integer getApariciones() {
-        return apariciones;
-    }
 
-    public void aumentarApariciones(){
-        this.apariciones++;
-    }
 
     public String getImdbNameId() {
         return imdbNameId;
@@ -145,33 +136,28 @@ public class CastMember {
         return causasDeMuerte;
     }
 
-    public boolean isLoagregue() {
-        return loagregue;
+    public ListaArray<MovieCastMember> getMovieCastMemberActor() {
+        return movieCastMemberActor;
     }
 
-    public void setLoagregue() {
-        this.loagregue = true;
+    public ListaArray<MovieCastMember> getMovieCastMemberDirProd() {
+        return movieCastMemberDirProd;
     }
 
-    public void agregarMovieCastMember(MovieCastMember movieCastMember){
-        this.movieCastMember.addLast(movieCastMember);
+    public ListaArray<MovieCastMember> getMoviCastMemberOtros() {
+        return moviCastMemberOtros;
     }
 
-    public ListaArray<MovieCastMember> getMovieCastMember() {
-        return movieCastMember;
+
+    public void agregarmovieCastMemberActores(MovieCastMember mcm){
+        this.movieCastMemberActor.addLast(mcm);
     }
-
-    /*// La funcion de hashcode devuelve el codigo ascii de el ImdbNameId
-    public int hashCode(){
-
-        Integer devolucion = 0;
-
-        byte[] ascii = this.getImdbNameId().getBytes(StandardCharsets.US_ASCII);
-        for (byte j: ascii){
-            devolucion = devolucion + j;
-        }
-        return devolucion;
-    }*/
+    public void agregarmovieCastMemberProdDire(MovieCastMember mcm){
+        this.movieCastMemberDirProd.addLast(mcm);
+    }
+    public void agregarmovieCastMemberOtros(MovieCastMember mcm){
+        this.moviCastMemberOtros.addLast(mcm);
+    }
 
     public boolean equals(Object obj){
         if (this == obj){

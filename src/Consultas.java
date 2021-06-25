@@ -2,7 +2,6 @@
 import TADs.arraylist.ArrayList;
 import TADs.arraylist.ListaArray;
 import TADs.hash.MyHash.MyHashTable;
-import TADs.heap.InvalidInformation;
 import TADs.heap.MyHeap;
 import TADs.heap.MyHeapImpl;
 import entities.CastMember;
@@ -12,9 +11,6 @@ import entities.MovieCastMember;
 
 public class Consultas {
 
-    private static boolean seRealizoConsulta1 = false;
-    private static boolean seRealizoConsulta2 = false;
-    private static boolean seRealizoConsulta3 = false;
     private ListaArray<CastMember> listaTop5Actores = new ArrayList<>(5);
     private ListaArray<CauseOfDeath> listaTop5Death = new ArrayList<>(5);
     private ListaArray<Float> listaPromedios = new ArrayList<>(14);
@@ -22,10 +18,6 @@ public class Consultas {
 
     // Constructor
     public Consultas() {    }
-
-    public static boolean isSeRealizoConsulta1() {
-        return seRealizoConsulta1;
-    }
 
     public ListaArray<CastMember> getListaTop5() {
         return listaTop5Actores;
@@ -36,36 +28,36 @@ public class Consultas {
     }
 
     //Consulta 1
-    public void consulta1(ListaArray<MovieCastMember> listaActores, MyHashTable<String, CastMember> hashCast){
+    public void consulta1(ListaArray<MovieCastMember> listaActores, MyHashTable<String, CastMember> hashCast) {
 
-        if(!seRealizoConsulta1) {
-            // Lleno mi arraylist inicialmente con los primero cinco elementos
-            for(int i = 0; i < 5; i++){ // No se controla que en los 5 primeros actores se repita alguno de ellos pues seria absurdo.
-                CastMember temp = hashCast.get(listaActores.get(i).getImdbNameId());
-                temp.aumentarApariciones();
-                this.listaTop5Actores.addLast(temp);
-            }
 
-            for(int i = 5; i < listaActores.size(); i++){
-                CastMember temp = hashCast.get(listaActores.get(i).getImdbNameId());
-                temp.aumentarApariciones();
-                int pos = this.listaTop5Actores.find(temp);
-                if(pos != -1){
-                    this.acomodarActores(pos);
-                }else if (temp.getApariciones() > this.listaTop5Actores.get(4).getApariciones()) {
-                    this.listaTop5Actores.addPisando(temp, 4);
-                    pos = 4;
-                    this.acomodarActores(pos);
-                }
-            }
-            seRealizoConsulta1 = true;
+
+        // Lleno mi arraylist inicialmente con los primero cinco elementos
+        for (int i = 0; i < 5; i++) { // No se controla que en los 5 primeros actores se repita alguno de ellos pues seria absurdo.
+            CastMember temp = hashCast.get(listaActores.get(i).getImdbNameId());
+            temp.aumentarApariciones();
+            this.listaTop5Actores.addLast(temp);
         }
+
+        for (int i = 5; i < listaActores.size(); i++) {
+            CastMember temp = hashCast.get(listaActores.get(i).getImdbNameId());
+            temp.aumentarApariciones();
+            int pos = this.listaTop5Actores.find(temp);
+            if (pos != -1) {
+                this.acomodarActores(pos);
+            } else if (temp.getApariciones() > this.listaTop5Actores.get(4).getApariciones()) {
+                this.listaTop5Actores.addPisando(temp, 4);
+                pos = 4;
+                this.acomodarActores(pos);
+            }
+        }
+
         // Imprimo en pantalla lo correspondiente a la consulta 1
-        for(int k = 0; k < 5; k++){
+        for (int k = 0; k < 5; k++) {
             System.out.println("\nNombre actor/actriz: " + this.listaTop5Actores.get(k).getName() + "\nCantidad de apariciones : " + this.listaTop5Actores.get(k).getApariciones() + "\n");
         }
-    }
 
+    }
 
    // Consulta 2
     public void consulta2(ListaArray<MovieCastMember> listaProdDir, MyHashTable<String, CastMember> hashCast){

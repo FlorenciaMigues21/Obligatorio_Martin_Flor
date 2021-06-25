@@ -17,12 +17,6 @@ public class upData {
 
     public upData(){ }
 
-    /* PRUEBAS Y TESTEO DE CANTIDADES
-    private ListaArray<CastMember> listCast = new ArrayList<>(297706);
-    private ListaArray<Movie> listMovie = new ArrayList(85856);
-    private ListaArray<MovieCastMember> listMovieCast = new ArrayList<>(835494);
-    private ListaArray<MovieRating> listMovieRaiting = new ArrayList<>(85856);*/
-
     // Inicializacion de las estructuras donde guardaremos los datos
     private MyHashTable<String, CastMember> hashCastMember = new MyClosedHashImpl<>(297706,1f);
     private MyHashTable<String,Movie> hashPeliculas = new MyClosedHashImpl<>(85856, 1f);
@@ -324,15 +318,19 @@ public class upData {
                 if (miniSrtings[3].toLowerCase().contains("actress") || miniSrtings[3].toLowerCase().contains("actor")){
                     //LO INGRESO AL ARRAY DE ACTRISES
                     listaMovieCastMmeber.get(0).addLast(newMC);
+                    hashCastMember.get(miniSrtings[2]).getMovieCastMemberActor().addLast(newMC);
+                    hashPeliculas.get(miniSrtings[0]).agregarmovieCastMemberActores(newMC);
                 }else if(miniSrtings[3].toLowerCase().contains("director") || miniSrtings[3].toLowerCase().contains("producer")){
                     //LO INGRESO AL ARRAY DE PRODDIR
                     listaMovieCastMmeber.get(1).addLast(newMC);
+                    hashCastMember.get(miniSrtings[2]).getMovieCastMemberDirProd().addLast(newMC);
+                    hashPeliculas.get(miniSrtings[0]).agregarmovieCastMemberProdDire(newMC);
                 }else{
                     //LO INGRESO A OTROS
                     listaMovieCastMmeber.get(2).addLast(newMC);
+                    hashCastMember.get(miniSrtings[2]).getMoviCastMemberOtros().addLast(newMC);
+                    hashPeliculas.get(miniSrtings[0]).agregarmovieCastMemberOtros(newMC);
                 }
-                hashPeliculas.get(miniSrtings[0]).agregarMovieCastMember(newMC);
-                hashCastMember.get(miniSrtings[2]).agregarMovieCastMember(newMC);
                 columna=0;
             }
         }

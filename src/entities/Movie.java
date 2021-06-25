@@ -30,7 +30,15 @@ public class Movie {
     private Float reviewsFromUsers;
     private Float reviewsFromCritics;
     private MovieRating movieRating;
-    private ListaArray<MovieCastMember> movieCastMember;
+
+    // Lista Movie Cast Member de Cast Members
+    private ListaArray<MovieCastMember> movieCastMemberActores;
+
+    // Lista Movie Cast Member Productores Directores
+    private ListaArray<MovieCastMember> movieCastMemberProdDire;
+
+    // Lista Movie Cast Member Otros
+    private ListaArray<MovieCastMember> movieCastMemberOtros;
 
 
     public Movie(String imdbTitleld, String title, String orginalTitle, Integer year, Integer datePublished, ListaArray<String> genre, Integer duration, ListaArray<String> country, String language, ListaArray<String> director, ListaArray<String> writer, String productionCompany, ListaArray<String> actors, String description, Float avgVote, Integer votes, String budget, String usaGrossIncome, String worldwideGrossIncome, Float metaScore, Float reviewsFromUsers, Float reviewsFromCritics) {
@@ -57,7 +65,9 @@ public class Movie {
         this.reviewsFromUsers = reviewsFromUsers;
         this.reviewsFromCritics = reviewsFromCritics;
         this.movieRating = null;
-        this.movieCastMember = new ArrayList<>(100);
+        this.movieCastMemberActores = new ArrayList<>(50);
+        this.movieCastMemberProdDire = new ArrayList<>(50);
+        this.movieCastMemberOtros = new ArrayList<>(50);
     }
 
     public String getImdbTitleld() {
@@ -156,26 +166,27 @@ public class Movie {
         return movieRating;
     }
 
-    public void agregarMovieCastMember(MovieCastMember mcmAgregar){
-        this.movieCastMember.addLast(mcmAgregar);
+    public ListaArray<MovieCastMember> getMovieCastMemberActores() {
+        return movieCastMemberActores;
     }
 
-    public ListaArray<MovieCastMember> getMovieCastMember() {
-        return movieCastMember;
+    public ListaArray<MovieCastMember> getMovieCastMemberProdDire() {
+        return movieCastMemberProdDire;
     }
 
-    /*// La funcion de hashcode devuelve el codigo ascii de el imdbTitleld
-    public int hashCode(){
+    public ListaArray<MovieCastMember> getMovieCastMemberOtros() {
+        return movieCastMemberOtros;
+    }
 
-        int devolucion = 0;
-
-        byte[] ascii = this.getImdbTitleld().getBytes(StandardCharsets.US_ASCII);
-        for (byte j: ascii){
-            devolucion = devolucion + j;
-        }
-        return devolucion;
-    }*/
-
+    public void agregarmovieCastMemberActores(MovieCastMember mcm){
+        this.movieCastMemberActores.addLast(mcm);
+    }
+    public void agregarmovieCastMemberProdDire(MovieCastMember mcm){
+        this.movieCastMemberProdDire.addLast(mcm);
+    }
+    public void agregarmovieCastMemberOtros(MovieCastMember mcm){
+        this.movieCastMemberOtros.addLast(mcm);
+    }
 
     public boolean equals(Object obj){
         if (this == obj){
