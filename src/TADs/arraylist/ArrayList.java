@@ -34,7 +34,10 @@ public class ArrayList<T> implements ListaArray<T> {
             this.setList(nuevaArrayList);
         }
         this.list[position] = value;
-        size++;
+        if(this.list[position] == null){
+            size++;
+        }
+
     }
 
     @Override
@@ -44,13 +47,13 @@ public class ArrayList<T> implements ListaArray<T> {
 
     @Override
     public void addLast(T value) {
-        if (this.list.length == size) {
+        /*if (this.list.length == size) {
             T[] nuevaArrayList = creadorArrayGenerics(this.list.length * 2);
             for (int i = 0; i < this.list.length; i++) {
                 nuevaArrayList[i] = this.list[i];
             }
             this.setList(nuevaArrayList);
-        }
+        }*/ //Nunca sucede en este obligatorio
         this.list[size] = value;
         size++;
     }
@@ -109,6 +112,10 @@ public class ArrayList<T> implements ListaArray<T> {
 
     @Override
     public void addPisando(T value, int position) { // OJO NO CAMBIA EL SIZE
+        if(this.list[position] == null){
+            size++;
+        }
+
         this.list[position] = value;
     }
 

@@ -5,20 +5,13 @@ import TADs.hash.MyHash.MyClosedHashImpl;
 import TADs.hash.MyHash.MyHashTable;
 import TADs.heap.MyHeap;
 import TADs.heap.MyHeapImpl;
-import TADs.listaEnlazada.Lista;
 import entities.CastMember;
 import entities.CauseOfDeath;
 import entities.Movie;
 import entities.MovieCastMember;
 
-import javax.xml.catalog.Catalog;
-import java.awt.event.FocusEvent;
-
 public class Consultas {
 
-
-    private ListaArray<Float> listaPromedios = new ArrayList<>(14);
-    private ListaArray<Movie> listaPeliMasWA = new ArrayList<>(14);
 
     // Constructor
     public Consultas() {
@@ -51,6 +44,7 @@ public class Consultas {
         System.out.println( "\nTiempo deejecuciónde la consulta:" + "\n" + timeTotal);
     }
 
+
     public int ordenarYMinima(ListaArray<CastMember> lista, CastMember castAgregar){
         lista.addLast(castAgregar);
         boolean estaOrdenado = false;
@@ -65,7 +59,7 @@ public class Consultas {
                 }
             }
         }
-        lista.remove(5);// Saco el elemento minimo
+        lista.remove(5);// Saco el elemento minimo, lo podria descartar
         return lista.get(4).getMovieCastMemberActor().size();
     }
 
@@ -117,47 +111,177 @@ public class Consultas {
     }
 
 
-
-
     // Consulta 3
     public void consulta3(ListaArray<ListaArray<Movie>> listaMoviesAños, MyHashTable<String,CastMember> hashCastMmeber) {
 
+        ListaArray<Movie> listaPeliMasWA = new ArrayList<>(14);
+        ListaArray<Float> listaPromedios = new ArrayList<>(14);
+        
         ListaArray<Movie> temp = listaMoviesAños.get(4);
-        MyHeap<Float, Movie> heap = this.heapSort(temp);
-        while (this.listaPeliMasWA.size() < 14) {
+        MyHeap<Float, Movie> heap = heapSort(temp);
+        while (listaPeliMasWA.size() < 14) {
             Movie peliculaAgregar = heap.delete();
             if (peliculaAgregar.getYear() <= 1960) {
-                this.listaPeliMasWA.addLast(peliculaAgregar);
+                listaPeliMasWA.addLast(peliculaAgregar);
             }
         }
         // En este punto ya tengo mi lista de lista de 14 peliculas
         for (int i = 0; i < 14; i++) {
-            Movie temp3 = this.listaPeliMasWA.get(i);
+            Movie temp3 = listaPeliMasWA.get(i);
             float promedio = 0;
             int divisor = 0;
-            for (int j = 0; j < temp3.getMovieCastMemberProdDire().size(); j++) {
-                MovieCastMember mcm = temp3.getMovieCastMemberProdDire().get(j);
-                if (mcm.getCategory().toLowerCase().contains("actor") || mcm.getCategory().toLowerCase().contains("actress")) {
-                    int temp4 = hashCastMmeber.get(mcm.getImdbNameId()).getHeight();
+            for (int j = 0; j < temp3.getMovieCastMemberActores().size(); j++) {
+                MovieCastMember mcm = temp3.getMovieCastMemberActores().get(j);
+                int temp4 = hashCastMmeber.get(mcm.getImdbNameId()).getHeight();
+                if (temp4 != 0) {
+                    divisor++;
                     promedio = promedio + temp4;
-                    if (temp4 != 0) {
-                        divisor++;
+                }
+            }
+            listaPromedios.addLast(promedio / divisor);
+        }
+        for (int i = 0; i < 14; i++) {
+            if (!listaPromedios.get(i).isNaN()) {
+                System.out.println("\nId película: " + listaPeliMasWA.get(i).getImdbTitleld() + "\nNombre: " + listaPeliMasWA.get(i).getTitle() + "\nAltura promedio de actores: " + listaPromedios.get(i));
+            }
+        }
+    }
+
+    // Consulta 4
+    public void consulta4(MyHashTable<String,CastMember> hashCastMmeber, ListaArray<MovieCastMember> listaActores) {
+        long firstTime = System.nanoTime();
+        MyHashTable<Integer, Integer> yearActores = new MyClosedHashImpl<>(5000, 1F); //FIXME
+        MyHashTable<Integer, Integer> yearActrices = new MyClosedHashImpl<>(5000, 1F); //FIXME
+        MyHashTable<String, CastMember> hashTotal = new MyClosedHashImpl<>(5000, 1F);//FIXME
+        int cant=0;
+        for (int i = 0; i < listaActores.size(); i++) { //  Recorro la lista de actores y actrices
+            CastMember temp = hashCastMmeber.get(listaActores.get(i).getImdbNameId());
+            if (temp.getBirthDate() != null && !hashTotal.contains(temp.getImdbNameId())) {
+                hashTotal.put(temp.getImdbNameId(), temp);
+                String genre = listaActores.get(i).getCategory();
+                if (genre.toLowerCase().equals("actor")) {
+                    if(temp.getBirthDate()==1970){
+                        cant++;
+                    }
+                    Integer dateMen = yearActores.get(temp.getBirthDate());
+                    if (dateMen == null) {
+                        yearActores.put(temp.getBirthDate(), 1);
+                    } else {
+                        dateMen++;
+                        yearActores.put(temp.getBirthDate(), dateMen);
+                    }
+                } if (genre.toLowerCase().equals("actress")) {
+                    Integer dateFemale = yearActrices.get(temp.getBirthDate());
+                    if (dateFemale == null) {
+                        yearActrices.put(temp.getBirthDate(), 1);
+                    } else {
+                        dateFemale++;
+                        yearActrices.put(temp.getBirthDate(), dateFemale);
                     }
                 }
             }
-            this.listaPromedios.addLast(promedio / divisor);
         }
-        for (int i = 0; i < 14; i++) {
-            if (!this.listaPromedios.get(i).isNaN()) {
-                System.out.println("\nId película: " + this.listaPeliMasWA.get(i).getImdbTitleld() + "\nNombre: " + this.listaPeliMasWA.get(i).getTitle() + "\nAltura promedio de actores: " + listaPromedios.get(i));
+
+        int yearMen = 0;
+        Integer cantMen = 0;
+        int yearWomen = 0;
+        Integer cantWomen = 0;
+        for(Integer j=1000;j<2021;j++){
+            Integer man = yearActores.get(j);
+            Integer women = yearActrices.get(j);
+            if(man!=null && man>cantMen){
+                cantMen = man;
+                yearMen = j;
+            }if(women!=null && women>cantWomen){
+                cantWomen = women;
+                yearWomen = j;
             }
         }
+        long lastTime = System.nanoTime();
+        long dif2 = lastTime - firstTime;
+        double timeTotal = (double) dif2/1000000000;
+        System.out.println("\nActores: "+"\nAño: "+yearMen+"\nCantidad: "+cantMen+"\nActrices: "+"\nAño: "+yearWomen+"\nCantidad: "+cantWomen);
+        System.out.println("Tiempo deejecucionde la consulta: "+timeTotal);
+    }
+
+
+    // Consulta 5
+    public void consulta5(ListaArray<MovieCastMember> listaActores, MyHashTable<String,CastMember> hashCastMmeber, MyHashTable<String, Movie> hashMovies){
+
+        long firstTime = System.nanoTime();
+        MyHashTable<String, Integer> hashGenerosCant = new MyClosedHashImpl<>(50, 1F); //FIXME
+        MyHashTable<String, Movie> hashTotal = new MyClosedHashImpl<>(5000, 1F);// Peliculas que ya use
+        MyHashTable<String, MovieCastMember> auxiliarActoresConDosHijos = new MyClosedHashImpl<>(1000, 1f);// FIXME
+        ListaArray<Integer> top10generos = new ArrayList<>(10);
+        ListaArray<String> listKeys = new ArrayList<>(50);
+
+        for(int i = 0;i < listaActores.size();i++){ // Recorro la lista de actores de MCM
+            Movie movie = hashMovies.get(listaActores.get(i).getImdbTitleId());
+            if(!hashTotal.contains(movie.getImdbTitleld())) {
+                if (auxiliarActoresConDosHijos.contains(listaActores.get(i).getImdbNameId())) {
+                    ListaArray<String> listaGeneros = movie.getGenre();
+                    hashTotal.put(movie.getImdbTitleld(), movie); // Agrego la movie
+                    for (int j = 0; j < listaGeneros.size(); j++) {
+                        String genero = listaGeneros.get(j);
+                        // Agrego al hash de generos
+                        Integer tipo = hashGenerosCant.get(genero);
+                        if (tipo == null) {
+                            hashGenerosCant.put(genero, 1);
+                            listKeys.addLast(genero);
+                        } else {
+                            tipo++;
+                            hashGenerosCant.put(genero, tipo);
+                        }
+                    }
+                }else{
+                    CastMember castMember = hashCastMmeber.get(listaActores.get(i).getImdbNameId()); //  Movie Cast Member que estoy evaluando
+                    if (castMember.getChildren() >= 2) {
+                        //Agrego a la lista auxiliar
+                        auxiliarActoresConDosHijos.put(castMember.getImdbNameId(),listaActores.get(i));
+                        hashTotal.put(movie.getImdbTitleld(),movie);
+                        ListaArray<String> listaGeneros = movie.getGenre();
+                        for(int k = 0; k < listaGeneros.size(); k++){
+                            String genero = listaGeneros.get(k);
+                            // Agrego al hash de generos
+                            Integer tipo = hashGenerosCant.get(genero);
+                            if (tipo == null) {
+                                hashGenerosCant.put(genero, 1);
+                                listKeys.addLast(genero);
+                            } else {
+                                tipo++;
+                                hashGenerosCant.put(genero, tipo);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        // A este punto ya tengo el hash de generos con apariciones
+        boolean estaOrdenado = false;
+        MyHeap<Integer, String> heap = new MyHeapImpl<>(50, true); // Ingreso en un heap maximo
+        int posicion = -1;
+        while (++posicion < listKeys.size()){
+            heap.insert(hashGenerosCant.get(listKeys.get(posicion)),listKeys.get(posicion));
+        }
+        for(int i = 0; i < 10; i++){
+            String gen = heap.delete(); // Me va a dar el nombre del genero
+            int cant =hashGenerosCant.get(gen); // Me va a dar la cantidad
+            System.out.println("\nGenero pelicula: " + gen + "\nCantidad: " + cant);
+        }
+
+
+
+        long lastTime = System.nanoTime();
+        long dif2 = lastTime - firstTime;
+        double timeTotal = (double) dif2/1000000000;
+        System.out.println("Tiempo deejecucionde la consulta: "+timeTotal);
     }
 
 
 
 
-    public MyHeap<Float, Movie> heapSort(ListaArray<Movie> lista) {
+
+    public static MyHeap<Float, Movie> heapSort(ListaArray<Movie> lista) {
 
         MyHeap<Float, Movie> heap = new MyHeapImpl<>(lista.size(), true); // Ingreso en un heap maximo
         for(int i = 0; i < lista.size(); i++){
@@ -166,129 +290,76 @@ public class Consultas {
         return heap;
     }
 
-   /* public void heapSort(T[] arrayToOrder, boolean arribaMax){
-        int heapLenght = 1;
-        if (arribaMax){
-            int posicion;
-            for (int i = 0; i < arrayToOrder.length-1; i++){
-                posicion = heapLenght;
-                while (posicion != 0 && arrayToOrder[posicion].compareTo(arrayToOrder[obtenerPosicionPadre(posicion)]) < 0){
-                    T temp = arrayToOrder[posicion];
-                    arrayToOrder[posicion] = arrayToOrder[obtenerPosicionPadre(posicion)];
-                    arrayToOrder[obtenerPosicionPadre(posicion)] = temp;
-                    posicion = obtenerPosicionPadre(posicion);
+    /*public static void heapSort(ListaArray<Movie> lista) {
+    int heapLenght = 1;
+    int posicion;
+    for (int i = 0; i < lista.size() - 1; i++) {
+        posicion = heapLenght;
+        while (posicion != 0 && lista.get(posicion).compareTo(lista.get(obtenerPosicionPadre(posicion))) < 0) {
+            Movie temp = lista.get(posicion);
+            lista.addPisando(lista.get(obtenerPosicionPadre(posicion)),posicion);
+            lista.addPisando(temp,obtenerPosicionPadre(posicion));
+            posicion = obtenerPosicionPadre(posicion);
+        }
+        heapLenght++;
+    }
+    for (int i = 0; i < lista.size(); i++) {
+        Movie agregarAlFinal = lista.get(0);
+        lista.addPisando(lista.get(heapLenght-1), 0);
+        boolean noEstaOrdenado = true;
+        posicion = 0;
+        while (noEstaOrdenado) {
+            if (obtenerPosicionHijoIzquierdo(posicion) >= heapLenght && obtenerPosicionHijoDerecho(posicion) >= heapLenght) {
+                noEstaOrdenado = false;
+            } else if (obtenerPosicionHijoDerecho(posicion) < heapLenght && obtenerPosicionHijoIzquierdo(posicion) < heapLenght) {
+                int posicionMenor;
+                if (lista.get(obtenerPosicionHijoDerecho(posicion)).compareTo(lista.get(obtenerPosicionHijoIzquierdo(posicion))) < 0) {
+                    posicionMenor = obtenerPosicionHijoDerecho(posicion);
+                } else {
+                    posicionMenor = obtenerPosicionHijoIzquierdo(posicion);
                 }
-                heapLenght++;
-            }
-            for (int i = 0; i < arrayToOrder.length; i++){
-                T agregarAlFinal = arrayToOrder[0];
-                arrayToOrder[0] = arrayToOrder[heapLenght-1];
-                boolean noEstaOrdenado = true;
-                posicion = 0;
-                while (noEstaOrdenado) {
-                    if (obtenerPosicionHijoIzquierdo(posicion) >= heapLenght && obtenerPosicionHijoDerecho(posicion) >= heapLenght){
-                        noEstaOrdenado = false;
-                    }
-                    else if (obtenerPosicionHijoDerecho(posicion) < heapLenght && obtenerPosicionHijoIzquierdo(posicion) < heapLenght){
-                        int posicionMenor;
-                        if (arrayToOrder[obtenerPosicionHijoDerecho(posicion)].compareTo(arrayToOrder[obtenerPosicionHijoIzquierdo(posicion)]) < 0){
-                            posicionMenor = obtenerPosicionHijoDerecho(posicion);
-                        }
-                        else {
-                            posicionMenor = obtenerPosicionHijoIzquierdo(posicion);
-                        }
-                        if (arrayToOrder[posicion].compareTo(arrayToOrder[posicionMenor]) > 0){
-                            T temp = arrayToOrder[posicion];
-                            arrayToOrder[posicion] = arrayToOrder[posicionMenor];
-                            arrayToOrder[posicionMenor] = temp;
-                            posicion = posicionMenor;
-                        }
-                        else {
-                            noEstaOrdenado = false;
-                        }
-                    }
-                    else if (obtenerPosicionHijoIzquierdo(posicion) < heapLenght){
-                        if (arrayToOrder[posicion].compareTo(arrayToOrder[obtenerPosicionHijoIzquierdo(posicion)]) > 0){
-                            T temp = arrayToOrder[posicion];
-                            arrayToOrder[posicion] = arrayToOrder[obtenerPosicionHijoIzquierdo(posicion)];
-                            arrayToOrder[obtenerPosicionHijoIzquierdo(posicion)] = temp;
-                        }
-                        noEstaOrdenado = false;
-                    }
-                    else {
-                        if (arrayToOrder[posicion].compareTo(arrayToOrder[obtenerPosicionHijoDerecho(posicion)]) > 0) {
-                            T temp = arrayToOrder[posicion];
-                            arrayToOrder[posicion] = arrayToOrder[obtenerPosicionHijoDerecho(posicion)];
-                            arrayToOrder[obtenerPosicionHijoDerecho(posicion)] = temp;
-                        }
-                        noEstaOrdenado = false;
-                    }
+                if (lista.get(posicion).compareTo(lista.get(posicionMenor)) > 0) {
+                    Movie temp = lista.get(posicionMenor);
+                    lista.addPisando(lista.get(posicionMenor),posicion);
+                    lista.addPisando(temp,posicionMenor);
+                    posicion = posicionMenor;
+                } else {
+                    noEstaOrdenado = false;
                 }
-                arrayToOrder[heapLenght-1] = agregarAlFinal;
-                heapLenght--;
+            } else if (obtenerPosicionHijoIzquierdo(posicion) < heapLenght) {
+                if (lista.get(posicion).compareTo(lista.get(obtenerPosicionHijoIzquierdo(posicion))) > 0) {
+                    Movie temp = lista.get(posicion);
+                    lista.addPisando(lista.get(obtenerPosicionHijoIzquierdo(posicion)),posicion);
+                    lista.addPisando(temp,obtenerPosicionHijoIzquierdo(posicion));
+                }
+                noEstaOrdenado = false;
+            } else {
+                if (lista.get(posicion).compareTo(lista.get(obtenerPosicionHijoDerecho(posicion))) > 0) {
+                    Movie temp = lista.get(posicion);
+                    lista.addPisando(lista.get(obtenerPosicionHijoDerecho(posicion)),posicion);
+                    lista.addPisando(temp,obtenerPosicionHijoDerecho(posicion));
+                }
+                noEstaOrdenado = false;
             }
         }
-        else {
-            int posicion;
-            for (int i = 0; i < arrayToOrder.length - 1; i++){
-                posicion = heapLenght;
-                while (posicion != 0 && arrayToOrder[posicion].compareTo(arrayToOrder[obtenerPosicionPadre(posicion)]) > 0){
-                    T temp = arrayToOrder[posicion];
-                    arrayToOrder[posicion] = arrayToOrder[obtenerPosicionPadre(posicion)];
-                    arrayToOrder[obtenerPosicionPadre(posicion)] = temp;
-                    posicion = obtenerPosicionPadre(posicion);
-                }
-                heapLenght++;
-            }
-            for (int i = 0; i < arrayToOrder.length; i++){
-                T agregarAlFinal = arrayToOrder[0];
-                arrayToOrder[0] = arrayToOrder[heapLenght-1];
-                boolean noEstaOrdenado = true;
-                posicion = 0;
-                while (noEstaOrdenado) {
-                    if (obtenerPosicionHijoIzquierdo(posicion) >= heapLenght && obtenerPosicionHijoDerecho(posicion) >= heapLenght){
-                        noEstaOrdenado = false;
-                    }
-                    else if (obtenerPosicionHijoDerecho(posicion) < heapLenght && obtenerPosicionHijoIzquierdo(posicion) < heapLenght){
-                        int posicionMayor;
-                        if (arrayToOrder[obtenerPosicionHijoDerecho(posicion)].compareTo(arrayToOrder[obtenerPosicionHijoIzquierdo(posicion)]) > 0){
-                            posicionMayor = obtenerPosicionHijoDerecho(posicion);
-                        }
-                        else {
-                            posicionMayor = obtenerPosicionHijoIzquierdo(posicion);
-                        }
-                        if (arrayToOrder[posicion].compareTo(arrayToOrder[posicionMayor]) < 0){
-                            T temp = arrayToOrder[posicion];
-                            arrayToOrder[posicion] = arrayToOrder[posicionMayor];
-                            arrayToOrder[posicionMayor] = temp;
-                            posicion = posicionMayor;
-                        }
-                        else {
-                            noEstaOrdenado = false;
-                        }
-                    }
-                    else if (obtenerPosicionHijoIzquierdo(posicion) < heapLenght){
-                        if (arrayToOrder[posicion].compareTo(arrayToOrder[obtenerPosicionHijoIzquierdo(posicion)]) < 0){
-                            T temp = arrayToOrder[posicion];
-                            arrayToOrder[posicion] = arrayToOrder[obtenerPosicionHijoIzquierdo(posicion)];
-                            arrayToOrder[obtenerPosicionHijoIzquierdo(posicion)] = temp;
-                        }
-                        noEstaOrdenado = false;
-                    }
-                    else {
-                        if (arrayToOrder[posicion].compareTo(arrayToOrder[obtenerPosicionHijoDerecho(posicion)]) < 0) {
-                            T temp = arrayToOrder[posicion];
-                            arrayToOrder[posicion] = arrayToOrder[obtenerPosicionHijoDerecho(posicion)];
-                            arrayToOrder[obtenerPosicionHijoDerecho(posicion)] = temp;
-                        }
-                        noEstaOrdenado = false;
-                    }
-                }
-                arrayToOrder[heapLenght-1] = agregarAlFinal;
-                heapLenght--;
-            }
-        }
+        lista.addPisando(agregarAlFinal, heapLenght-1);
+        heapLenght--;
+    }
+}
+
+
+    public static int obtenerPosicionHijoDerecho(int posicion) {
+        return (2 * posicion + 2);
+    }
+
+    public static int obtenerPosicionHijoIzquierdo(int posicion) {
+        return (2 * posicion + 1);
+    }
+
+    public static int obtenerPosicionPadre(int posicion) {
+        return ((posicion - 1) / 2);
     }*/
+
 
     public void acomodarMuertes(int pos, MyHashTable<String, Integer> hashCantCausa, ListaArray<CauseOfDeath> listaTop5Death){
         while (pos > 0) {

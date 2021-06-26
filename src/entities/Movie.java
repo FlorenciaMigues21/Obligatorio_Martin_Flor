@@ -201,4 +201,13 @@ public class Movie {
         }
     }
 
+    public int compareTo(Movie movie){
+        if(movie.getMovieRating().getWeightedAverage() == this.getMovieRating().getWeightedAverage()){
+            return 0;
+        }else if(movie.getMovieRating().getWeightedAverage() < this.getMovieRating().getWeightedAverage()){
+            return 1;
+        }
+        return -1;
+    }
+
 }

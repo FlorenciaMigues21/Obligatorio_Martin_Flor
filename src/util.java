@@ -16,7 +16,6 @@ public class util {
 
     public String[] stringPlace(String places) {
         String[] separacion;
-        //separacion = places.split(",(?=(?:[^\\[]*\\[[^\\]]*\\])*[^\\]]*$)");
         if (places.contains("[")) {
             separacion = places.split("\\[");
             separacion = separacion[1].split(",");
@@ -52,10 +51,33 @@ public class util {
         return returnList;
     }
 
+    public ListaArray<String> listStringsComaSinComi(String initialString) {
+        String[] stringPartido = initialString.split(",");
+        ListaArray<String> returnList = new ArrayList<>(stringPartido.length);
+        if(stringPartido.length==3) {
+            if (stringPartido[0].charAt(0) == '"') {
+                stringPartido[0] = stringPartido[0].substring(1);
+            }
+            if (stringPartido[1].charAt(0) == ' ') {
+                stringPartido[1] = stringPartido[1].substring(1);
+            }
+            if (stringPartido[2].charAt(stringPartido[2].length() - 1) == '"' && stringPartido[2].charAt(0) == ' ') {
+                stringPartido[2] = stringPartido[2].substring(1, stringPartido[2].length() - 1);
+            }
+        }else if(stringPartido.length==2){
+            if (stringPartido[0].charAt(0) == '"') {
+                stringPartido[0] = stringPartido[0].substring(1);
+            }
+            if (stringPartido[1].charAt(stringPartido[1].length() - 1) == '"' && stringPartido[1].charAt(0) == ' ') {
+                stringPartido[1] = stringPartido[1].substring(1, stringPartido[1].length() - 1);
+            }
+        }
+        for (String s : stringPartido) {
+            returnList.addLast(s);
+        }
+        return returnList;
+    }
 
-    /*public String[] listStringAnd(String intialString) {
-        return intialString.split(" and |,");
-    }*/
 
     public ListaArray<Rating> listRatings(String[] fraccion) {
         ListaArray<Rating> returnList = new ArrayList<>((fraccion.length) / 2);

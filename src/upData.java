@@ -9,6 +9,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
@@ -18,8 +20,8 @@ public class upData {
     public upData(){ }
 
     // Inicializacion de las estructuras donde guardaremos los datos
-    private MyHashTable<String, CastMember> hashCastMember = new MyClosedHashImpl<>(297706,1f);
-    private MyHashTable<String,Movie> hashPeliculas = new MyClosedHashImpl<>(85856, 1f);
+    private MyHashTable<String, CastMember> hashCastMember = new MyClosedHashImpl<>(300000,1f); // 297706
+    private MyHashTable<String,Movie> hashPeliculas = new MyClosedHashImpl<>(100000, 1f); // 85856
     private ListaArray<ListaArray<MovieCastMember>> listaMovieCastMmeber = new ArrayList<>(3);
     public ListaArray<ListaArray<Movie>> listaPeliculasPorAño = new ArrayList<>(9);
 
@@ -41,9 +43,9 @@ public class upData {
     util funciones = new util();
 
     public void upNames() throws IOException {
-        FileReader file = new FileReader("C:\\Users\\flopy\\Desktop\\dataset(1)\\IMDb names.csv");
+        FileReader file = new FileReader("C:\\Users\\Usuario\\Desktop\\UM\\SEMESTRE 3\\PROGRAMACION 2\\DATOSOBLIGATORIO\\IMDb names.csv");
         BufferedReader reader = new BufferedReader(file);
-        MyHashTable<String, CauseOfDeath> hashCausasDeMuerte = new MyClosedHashImpl<>(1976,0.99999f); // El load factor no me importa pues nunca habra rehashing
+        MyHashTable<String, CauseOfDeath> hashCausasDeMuerte = new MyClosedHashImpl<>(4000,0.99999f); // El load factor no me importa pues nunca habra rehashing
 
         String[] miniSrtings = new String[17];
         reader.readLine(); //Para saltear la primera linea que es la que contiene info innecesaria
@@ -66,19 +68,32 @@ public class upData {
             if (columna == 16) {
                 miniSrtings[columna] = line.substring(start, current);
 
-                Integer height = null;
+                Integer height;
                 if (!miniSrtings[3].isEmpty()) {
                     height = Integer.parseInt(miniSrtings[3]);
                 }else{
                     height = 0;
                 }
                 //El ministring[5] no tiene info util
+                Date birthDate=null;
                 Integer date_birth = null;
                 if (!miniSrtings[6].isEmpty()) {
-                    try{
-                        date_birth = Integer.parseInt(miniSrtings[6].substring(0,3));
-                    }catch(Exception e){
-                        // NO hago nada. Solo no quiero que me salte la excepcion
+                    try {
+                        birthDate = new SimpleDateFormat("yyyy-MM-dd").parse(miniSrtings[6]);
+                        date_birth = Integer.parseInt(miniSrtings[6].substring(0, 4));
+                    } catch (ParseException e) {
+                        String yearS = "";
+                        for (int i = 0; i < miniSrtings[6].length(); i++) {
+                            if (Character.isDigit(miniSrtings[6].charAt(i))) {
+                                yearS += miniSrtings[6].charAt(i);
+                            }
+                        }
+                        try {
+                            birthDate = new SimpleDateFormat("yyyy").parse(yearS);
+                            date_birth = Integer.parseInt(yearS);
+                        } catch (ParseException parseException) {
+
+                        }
                     }
                 }
                 String[] places_birth= new String[3];
@@ -89,7 +104,7 @@ public class upData {
                 //El ministring[8] no tiene info util
                 if (!miniSrtings[9].isEmpty()) {
                     try{
-                        date_death = Integer.parseInt(miniSrtings[9].substring(0,3));
+                        date_death = Integer.parseInt(miniSrtings[9].substring(0,4));
                     }catch(Exception e){
                         // NO hago nada. Solo no quiero que me salte la excepcion
                     }
@@ -138,11 +153,9 @@ public class upData {
                 columna = 0;
             }
         }
-        System.out.println(" La cantidad de casts members que hay es : " + hashCastMember.getSize());
-        System.out.println(" La cantidad de causas de muerte diferentes en el hash de causas de muerte es : " + hashCausasDeMuerte.getSize());
     }
     public void upMovies() throws IOException {
-        FileReader fr = new FileReader("C:\\Users\\flopy\\Desktop\\dataset(1)\\IMDb movies.csv");
+        FileReader fr = new FileReader("C:\\Users\\Usuario\\Desktop\\UM\\SEMESTRE 3\\PROGRAMACION 2\\DATOSOBLIGATORIO\\IMDb movies.csv");
         BufferedReader reader = new BufferedReader(fr);
         String[] miniSrtings = new String[22];
         reader.readLine(); //Para saltear la primera linea que es la que contiene info innecesaria
@@ -187,14 +200,14 @@ public class upData {
                 Integer datePublished = null;
                 if (!miniSrtings[4].isEmpty()) {
                     try {
-                        datePublished = Integer.parseInt(miniSrtings[4].substring(0, 3));
+                        datePublished = Integer.parseInt(miniSrtings[4].substring(0, 4));
                     } catch (Exception e) {
                         // NO hago nada. Solo no quiero que me salte la excepcion
                     }
                 }
                 ListaArray<String> genre = null;
                 if (!miniSrtings[5].isEmpty()) {
-                    genre = funciones.listStringsComa(miniSrtings[5]);
+                    genre = funciones.listStringsComaSinComi(miniSrtings[5]);
                 }
                 Integer duration = null;
                 if (!miniSrtings[6].isEmpty()) {
@@ -263,28 +276,19 @@ public class upData {
             }
         }
         listaPeliculasPorAño.addLast(primera);
-        System.out.println(primera.size());
         listaPeliculasPorAño.addLast(segunda);
-        System.out.println(segunda.size());
         listaPeliculasPorAño.addLast(tercera);
-        System.out.println(tercera.size());
         listaPeliculasPorAño.addLast(cuarta);
-        System.out.println(cuarta.size());
         listaPeliculasPorAño.addLast(quinta);
-        System.out.println(quinta.size());
         listaPeliculasPorAño.addLast(sexta);
-        System.out.println(sexta.size());
         listaPeliculasPorAño.addLast(septima);
-        System.out.println(septima.size());
         listaPeliculasPorAño.addLast(octava);
-        System.out.println(octava.size());
         listaPeliculasPorAño.addLast(novena);
-        System.out.println(novena.size());
     }
 
     public void uPTitle() throws IOException { //HAY QUE VERIFICAR QUE ESTO ESTE BIEN FIXME
 
-        // Inicializo las tres listas de movie cast member de manera conveniente
+        //Inicializo las tres listas de movie cast member de manera conveniente
         ListaArray<MovieCastMember> listaActores = new ArrayList<>(355770);
         ListaArray<MovieCastMember> listaProdDir = new ArrayList<>(190070);
         ListaArray<MovieCastMember> listaOtros = new ArrayList<>(289700); // Vease que la lista de otros podria, para hcer de este un mejor programa, dividirse en fotografos, camaras, etc
@@ -294,7 +298,7 @@ public class upData {
         listaMovieCastMmeber.add(listaOtros,2); // listaMovieCastMmeber[2] = listaOtros
 
 
-        FileReader fr = new FileReader("C:\\Users\\flopy\\Desktop\\dataset(1)\\IMDb title_principals.csv");
+        FileReader fr = new FileReader("C:\\Users\\Usuario\\Desktop\\UM\\SEMESTRE 3\\PROGRAMACION 2\\DATOSOBLIGATORIO\\IMDb title_principals.csv");
         BufferedReader reader = new BufferedReader(fr);
         util funciones = new util();
         String[] miniSrtings = new String[6];
@@ -324,12 +328,12 @@ public class upData {
 
                 // Agrego a las estructuras el nuevo MCM
 
-                if (miniSrtings[3].toLowerCase().contains("actress") || miniSrtings[3].toLowerCase().contains("actor")){
+                if (miniSrtings[3].contains("actress") || miniSrtings[3].contains("actor")){
                     //LO INGRESO AL ARRAY DE ACTRISES
                     listaMovieCastMmeber.get(0).addLast(newMC);
                     hashCastMember.get(miniSrtings[2]).getMovieCastMemberActor().addLast(newMC);
                     hashPeliculas.get(miniSrtings[0]).agregarmovieCastMemberActores(newMC);
-                }else if(miniSrtings[3].toLowerCase().contains("director") || miniSrtings[3].toLowerCase().contains("producer")){
+                }else if(miniSrtings[3].contains("director") || miniSrtings[3].contains("producer")){
                     //LO INGRESO AL ARRAY DE PRODDIR
                     listaMovieCastMmeber.get(1).addLast(newMC);
                     hashCastMember.get(miniSrtings[2]).getMovieCastMemberDirProd().addLast(newMC);
@@ -343,15 +347,12 @@ public class upData {
                 columna=0;
             }
         }
-        System.out.println(" La cantidad de movies casts members ACTORES que hay es : " + listaActores.size());
-        System.out.println(" La cantidad de movies casts members PRODEUCTORES que hay es : " + listaProdDir.size());
-        System.out.println(" La cantidad de movies casts members OTROS que hay es : " + listaOtros.size());
     }
 
 
     public void upMRatin() throws IOException {
 
-        FileReader file = new FileReader("C:\\Users\\flopy\\Desktop\\dataset(1)\\IMDb ratings.csv");
+        FileReader file = new FileReader("C:\\Users\\Usuario\\Desktop\\UM\\SEMESTRE 3\\PROGRAMACION 2\\DATOSOBLIGATORIO\\IMDb ratings.csv");
         BufferedReader reader = new BufferedReader(file);
         String[] miniSrtings = new String[49];
         reader.readLine(); //Para saltear la primera linea que es la que contiene info innecesaria

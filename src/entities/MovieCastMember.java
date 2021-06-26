@@ -10,6 +10,9 @@ public class MovieCastMember {
     private String category;
     private String job;
     private ListaArray<String> characters;
+    //private Movie movieAsociada;
+    //private  CastMember castMemberAsociada;
+
 
     public MovieCastMember(String imdbTitleId, String imdbNameId,Integer ordering, String category, String job, ListaArray<String> characters) {
         this.imdbNameId= imdbNameId;

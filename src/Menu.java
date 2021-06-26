@@ -101,15 +101,15 @@ public class Menu {
 
                 } else if (entradaConsultas.equals("3")) {
 
-                    //nuevaConsulta.consulta3(newUp.getListaPeliculasPorAño(), newUp.getHashCastMember());
+                    nuevaConsulta.consulta3(newUp.getListaPeliculasPorAño(), newUp.getHashCastMember());
 
                 } else if (entradaConsultas.equals("4")) {
 
-                    // Aca se llama al metodo que ejecuta la consulta 4
+                    nuevaConsulta.consulta4(newUp.getHashCastMember(), newUp.getListaMovieCastMmeber().get(0));
 
                 } else if (entradaConsultas.equals("5")) {
 
-                    // Aca se llama al metodo que ejecuta la consulta 5
+                    nuevaConsulta.consulta5(newUp.getListaMovieCastMmeber().get(0),newUp.getHashCastMember(), newUp.getHashPeliculas());
 
                 } else { // Ya habia controlado arriba que el numero este entre 1 y 6 por lo que este es el caso de que digite 6.
                     // Vuelve al menu principal
