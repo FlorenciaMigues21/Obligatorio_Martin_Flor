@@ -41,7 +41,7 @@ public class UpData {
     Util funciones = new Util();
 
     public void upNames() throws IOException {
-        FileReader file = new FileReader("C:\\Users\\Usuario\\Desktop\\UM\\SEMESTRE 3\\PROGRAMACION 2\\DATOSOBLIGATORIO\\IMDb names.csv");
+        FileReader file = new FileReader("IMDb names.csv");
         BufferedReader reader = new BufferedReader(file);
         MyHashTable<String, CauseOfDeath> hashCausasDeMuerte = new MyClosedHashImpl<>(5000,0.99999f); // El load factor no me importa pues nunca habra rehashing
 
@@ -153,7 +153,7 @@ public class UpData {
         }
     }
     public void upMovies() throws IOException {
-        FileReader fr = new FileReader("C:\\Users\\Usuario\\Desktop\\UM\\SEMESTRE 3\\PROGRAMACION 2\\DATOSOBLIGATORIO\\IMDb movies.csv");
+        FileReader fr = new FileReader("IMDb movies.csv");
         BufferedReader reader = new BufferedReader(fr);
         String[] miniSrtings = new String[22];
         reader.readLine(); //Para saltear la primera linea que es la que contiene info innecesaria
@@ -296,7 +296,7 @@ public class UpData {
         listaMovieCastMmeber.add(listaOtros,2); // listaMovieCastMmeber[2] = listaOtros
 
 
-        FileReader fr = new FileReader("C:\\Users\\Usuario\\Desktop\\UM\\SEMESTRE 3\\PROGRAMACION 2\\DATOSOBLIGATORIO\\IMDb title_principals.csv");
+        FileReader fr = new FileReader("IMDb title_principals.csv");
         BufferedReader reader = new BufferedReader(fr);
         Util funciones = new Util();
         String[] miniSrtings = new String[6];
@@ -350,7 +350,7 @@ public class UpData {
 
     public void upMRatin() throws IOException {
 
-        FileReader file = new FileReader("C:\\Users\\Usuario\\Desktop\\UM\\SEMESTRE 3\\PROGRAMACION 2\\DATOSOBLIGATORIO\\IMDb ratings.csv");
+        FileReader file = new FileReader("IMDb ratings.csv");
         BufferedReader reader = new BufferedReader(file);
         String[] miniSrtings = new String[49];
         reader.readLine(); //Para saltear la primera linea que es la que contiene info innecesaria
