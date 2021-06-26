@@ -14,9 +14,9 @@ import java.util.Arrays;
 import java.util.Date;
 
 
-public class upData {
+public class UpData {
 
-    public upData(){ }
+    public UpData(){ }
 
     // Inicializacion de las estructuras donde guardaremos los datos
     private MyHashTable<String, CastMember> hashCastMember = new MyClosedHashImpl<>(600000,1f); // 297706
@@ -34,12 +34,11 @@ public class upData {
     public ListaArray<ListaArray<MovieCastMember>> getListaMovieCastMmeber() {
         return listaMovieCastMmeber;
     }
-
     public ListaArray<ListaArray<Movie>> getListaPeliculasPorAño() {
         return listaPeliculasPorAño;
     }
 
-    util funciones = new util();
+    Util funciones = new Util();
 
     public void upNames() throws IOException {
         FileReader file = new FileReader("C:\\Users\\Usuario\\Desktop\\UM\\SEMESTRE 3\\PROGRAMACION 2\\DATOSOBLIGATORIO\\IMDb names.csv");
@@ -73,7 +72,7 @@ public class upData {
                 }else{
                     height = 0;
                 }
-                //El ministring[5] no tiene info util
+                //El ministring[5] no tiene info Util
                 Date birthDate=null;
                 Integer date_birth = null;
                 if (!miniSrtings[6].isEmpty()) {
@@ -100,7 +99,7 @@ public class upData {
                     places_birth = funciones.stringPlace(miniSrtings[7]);//RECORDAD:[0]PAIS,[1]STATE,[2]CITY
                 }
                 Integer date_death = null;
-                //El ministring[8] no tiene info util
+                //El ministring[8] no tiene info Util
                 if (!miniSrtings[9].isEmpty()) {
                     try{
                         date_death = Integer.parseInt(miniSrtings[9].substring(0,4));
@@ -193,7 +192,7 @@ public class upData {
                         year = Integer.parseInt(miniSrtings[3]);
                         bucket = Math.floor((year - 1890) / 15) + 1;
                     } catch (Exception e) {
-                        //
+                        // Para caso extremadamente particular
                     }
                 }
                 Integer datePublished = null;
@@ -299,7 +298,7 @@ public class upData {
 
         FileReader fr = new FileReader("C:\\Users\\Usuario\\Desktop\\UM\\SEMESTRE 3\\PROGRAMACION 2\\DATOSOBLIGATORIO\\IMDb title_principals.csv");
         BufferedReader reader = new BufferedReader(fr);
-        util funciones = new util();
+        Util funciones = new Util();
         String[] miniSrtings = new String[6];
         reader.readLine(); //Para saltear la primera linea que es la que contiene info innecesaria
         int start;

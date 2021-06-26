@@ -3,8 +3,6 @@ package entities;
 import TADs.arraylist.ArrayList;
 import TADs.arraylist.ListaArray;
 
-
-
 public class Movie {
 
     private String imdbTitleld;

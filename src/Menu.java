@@ -6,7 +6,7 @@ public class Menu {
 
     public Menu() { } // Constructor
 
-    public static boolean numberIsCorrect(String cadena, int numeroChico, int numeroGrande) {
+    private static boolean numberIsCorrect(String cadena, int numeroChico, int numeroGrande) {
 
         boolean resultado;
 
@@ -25,7 +25,7 @@ public class Menu {
         return resultado;
     }
 
-    public static void cargaDeDatos(upData newUp) throws IOException {
+    public static void cargaDeDatos(UpData newUp) throws IOException {
         long firstTime = System.nanoTime();
         newUp.upNames();
         newUp.upMovies();
@@ -39,7 +39,7 @@ public class Menu {
 
 
     public static void menuInicial() throws IOException {
-        upData newUp = null;
+        UpData newUp = null;
         Consultas nuevaConsulta = new Consultas();
         while (true) {
             System.out.println("\nSeleccione la opción que desee:\n1.Carga de datos\n2.Ejecutar consultas\n3.Salir");
@@ -49,7 +49,7 @@ public class Menu {
                 System.out.println("\nDato mal ingresado, intente ingresarlo nuevamente");
             }else if (entradaMenu.equals("1")) {
                 if(newUp == null){
-                    newUp = new upData();
+                    newUp = new UpData();
                     cargaDeDatos(newUp);
                 }else{
                     System.out.println("Los datos ya han sido cargados, presione 2 para realizar las consultas");
@@ -69,7 +69,7 @@ public class Menu {
     }
 
 
-    public static void consultas (Consultas nuevaConsulta, upData newUp){
+    public static void consultas (Consultas nuevaConsulta, UpData newUp){
         while (true) {
             System.out.println("\n1.Indicar el Top 5 de actores/actrices que más apariciones han tenido a lo largo de los años." + "\n2.Indicar el Top 5 de las causas de muerte más frecuentes en directores y productores nacidos en Italia, Estados Unidos, Francia y UK." +
                     "\n3.Mostrar de las 14 películas con más weightedAverage, el promedio de altura de sus actores/actrices si su valor es distinto de nulo." +

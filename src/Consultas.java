@@ -80,7 +80,7 @@ public class Consultas {
                     Integer causa = hashCantCausas.get(temp.getCausasDeMuerte().getName());
                     if (causa != null) {
                         causa++;
-                        hashCantCausas.put(temp.getCausasDeMuerte().getName(), causa);//SET SE LE SUMA
+                        hashCantCausas.put(temp.getCausasDeMuerte().getName(), causa);
                         causa = hashCantCausas.get(temp.getCausasDeMuerte().getName());
                     } else {
                         hashCantCausas.put(temp.getCausasDeMuerte().getName(), 1);
@@ -155,9 +155,9 @@ public class Consultas {
     // Consulta 4
     public void consulta4(MyHashTable<String,CastMember> hashCastMmeber, ListaArray<MovieCastMember> listaActores) {
         long firstTime = System.nanoTime();
-        MyHashTable<Integer, Integer> yearActores = new MyClosedHashImpl<>(500, 1F); //FIXME
-        MyHashTable<Integer, Integer> yearActrices = new MyClosedHashImpl<>(500, 1F); //FIXME
-        MyHashTable<String, CastMember> hashTotal = new MyClosedHashImpl<>(100000, 1F);//FIXME
+        MyHashTable<Integer, Integer> yearActores = new MyClosedHashImpl<>(500, 1F);
+        MyHashTable<Integer, Integer> yearActrices = new MyClosedHashImpl<>(500, 1F);
+        MyHashTable<String, CastMember> hashTotal = new MyClosedHashImpl<>(100000, 1F);
         int cant=0;
         for (int i = 0; i < listaActores.size(); i++) { //  Recorro la lista de actores y actrices
             CastMember temp = hashCastMmeber.get(listaActores.get(i).getImdbNameId());

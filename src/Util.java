@@ -5,9 +5,9 @@ import TADs.arraylist.ListaArray;
 
 import entities.Rating;
 
-public class util {
+public class Util {
 
-    public util() {
+    public Util() {
     }
 
 
