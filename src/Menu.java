@@ -47,20 +47,20 @@ public class Menu {
             String entradaMenu = entradaScanMenu.nextLine();
             if (!numberIsCorrect(entradaMenu, 1, 3)) {
                 System.out.println("\nDato mal ingresado, intente ingresarlo nuevamente");
-            } else if (entradaMenu.equals("1")) {
+            }else if (entradaMenu.equals("1")) {
                 if(newUp == null){
                     newUp = new upData();
                     cargaDeDatos(newUp);
                 }else{
                     System.out.println("Los datos ya han sido cargados, presione 2 para realizar las consultas");
                 }
-            } else if (entradaMenu.equals("2")) {
+            }else if (entradaMenu.equals("2")) {
                 if(newUp == null){
                     System.out.println("Debe subirse previamente los datos");
                 }else{
                     consultas(nuevaConsulta, newUp);
                 }
-            } else { // (NroMenu.equals("3")) Ya habia controlado arriba que el numero este entre 1 y 3 por lo que este es el caso de que digite 3.
+            }else { // (NroMenu.equals("3")) Ya habia controlado arriba que el numero este entre 1 y 3 por lo que este es el caso de que digite 3.
                 System.out.println("\nSe terminó el programa");
                 break;
             }

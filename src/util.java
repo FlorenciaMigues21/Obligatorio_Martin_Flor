@@ -2,8 +2,7 @@
 
 import TADs.arraylist.ArrayList;
 import TADs.arraylist.ListaArray;
-import entities.CastMember;
-import entities.CauseOfDeath;
+
 import entities.Rating;
 
 public class util {
