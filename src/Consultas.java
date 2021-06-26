@@ -112,7 +112,7 @@ public class Consultas {
 
 
     // Consulta 3
-    public void consulta3(ListaArray<ListaArray<Movie>> listaMoviesAños, MyHashTable<String,CastMember> hashCastMmeber) {
+    public void consulta3(ListaArray<ListaArray<Movie>> listaMoviesAños, MyHashTable<String,CastMember> hashCastMemeber) {
 
         long firstTime = System.nanoTime();
         ListaArray<Movie> listaPeliMasWA = new ArrayList<>(14);
@@ -133,7 +133,7 @@ public class Consultas {
             int divisor = 0;
             for (int j = 0; j < temp3.getMovieCastMemberActores().size(); j++) {
                 MovieCastMember mcm = temp3.getMovieCastMemberActores().get(j);
-                int temp4 = hashCastMmeber.get(mcm.getImdbNameId()).getHeight();
+                int temp4 = hashCastMemeber.get(mcm.getImdbNameId()).getHeight();
                 if (temp4 != 0) {
                     divisor++;
                     promedio = promedio + temp4;
@@ -153,14 +153,14 @@ public class Consultas {
     }
 
     // Consulta 4
-    public void consulta4(MyHashTable<String,CastMember> hashCastMmeber, ListaArray<MovieCastMember> listaActores) {
+    public void consulta4(MyHashTable<String,CastMember> hashCastMemeber, ListaArray<MovieCastMember> listaActores) {
         long firstTime = System.nanoTime();
         MyHashTable<Integer, Integer> yearActores = new MyClosedHashImpl<>(500, 1F);
         MyHashTable<Integer, Integer> yearActrices = new MyClosedHashImpl<>(500, 1F);
         MyHashTable<String, CastMember> hashTotal = new MyClosedHashImpl<>(100000, 1F);
         int cant=0;
         for (int i = 0; i < listaActores.size(); i++) { //  Recorro la lista de actores y actrices
-            CastMember temp = hashCastMmeber.get(listaActores.get(i).getImdbNameId());
+            CastMember temp = hashCastMemeber.get(listaActores.get(i).getImdbNameId());
             if (temp.getBirthDate() != null && !hashTotal.contains(temp.getImdbNameId())) {
                 hashTotal.put(temp.getImdbNameId(), temp);
                 String genre = listaActores.get(i).getCategory();
@@ -212,7 +212,7 @@ public class Consultas {
 
 
     // Consulta 5
-    public void consulta5(ListaArray<MovieCastMember> listaActores, MyHashTable<String,CastMember> hashCastMmeber, MyHashTable<String, Movie> hashMovies){
+    public void consulta5(ListaArray<MovieCastMember> listaActores, MyHashTable<String,CastMember> hashCastMemeber, MyHashTable<String, Movie> hashMovies){
 
         long firstTime = System.nanoTime();
         MyHashTable<String, Integer> hashGenerosCant = new MyClosedHashImpl<>(50, 1F); //Hay 23 generos
@@ -239,7 +239,7 @@ public class Consultas {
                         }
                     }
                 }else{
-                    CastMember castMember = hashCastMmeber.get(listaActores.get(i).getImdbNameId()); //  Movie Cast Member que estoy evaluando
+                    CastMember castMember = hashCastMemeber.get(listaActores.get(i).getImdbNameId()); //  Movie Cast Member que estoy evaluando
                     if (castMember.getChildren() >= 2) {
                         //Agrego a la lista auxiliar
                         auxiliarActoresConDosHijos.put(castMember.getImdbNameId(),listaActores.get(i));
