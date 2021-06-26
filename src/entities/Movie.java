@@ -65,9 +65,9 @@ public class Movie {
         this.reviewsFromUsers = reviewsFromUsers;
         this.reviewsFromCritics = reviewsFromCritics;
         this.movieRating = null;
-        this.movieCastMemberActores = new ArrayList<>(50);
-        this.movieCastMemberProdDire = new ArrayList<>(50);
-        this.movieCastMemberOtros = new ArrayList<>(50);
+        this.movieCastMemberActores = new ArrayList<>(40);
+        this.movieCastMemberProdDire = new ArrayList<>(40);
+        this.movieCastMemberOtros = new ArrayList<>(40);
     }
 
     public String getImdbTitleld() {

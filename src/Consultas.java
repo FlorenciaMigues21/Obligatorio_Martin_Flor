@@ -20,7 +20,7 @@ public class Consultas {
     //Consulta 1
     public void consulta1(ListaArray<MovieCastMember> listaActores, MyHashTable<String, CastMember> hashCast) {
         long firstTime = System.nanoTime();
-        ListaArray<CastMember> listaTop5 = new ArrayList<>(5);
+        ListaArray<CastMember> listaTop5 = new ArrayList<>(6);
         for (int j = 0; j < 5; j++) { // No se contempla que entre los perimero 5 castmembers este el mismo ya que es un caso irreale (para eso necesito, al menos, una pelicula de integrantes en total)
             listaTop5.addLast(hashCast.get(listaActores.get(j).getImdbNameId()));
         }
@@ -41,7 +41,7 @@ public class Consultas {
         for (int k = 0; k < 5; k++) {
             System.out.println("\nNombre actor/actriz: " + listaTop5.get(k).getName() + "\nCantidad de apariciones : " + listaTop5.get(k).getMovieCastMemberActor().size() + "\n");
         }
-        System.out.println( "\nTiempo deejecuciónde la consulta:" + "\n" + timeTotal);
+        System.out.println( "\nTiempo de ejecución de la consulta:" + "\n" + timeTotal);
     }
 
 
@@ -70,32 +70,32 @@ public class Consultas {
 
         long firstTime = System.nanoTime();
         ListaArray<CauseOfDeath> listaTop5Death = new ArrayList<>(5);
-        MyHashTable<String,Integer> HashCantCausas = new MyClosedHashImpl<>(2000,1f);
-        MyHashTable<String,CastMember> HashProdDir = new MyClosedHashImpl<>(500,1f);
+        MyHashTable<String,Integer> hashCantCausas = new MyClosedHashImpl<>(800,1f);
+        MyHashTable<String,CastMember> hashProdDir = new MyClosedHashImpl<>(5000,1f);
 
         for(int i = 0; i < listaProdDir.size(); i++){ //  Recorro la lista de productores y directores
             CastMember temp = hashCast.get(listaProdDir.get(i).getImdbNameId());
-                if (!HashProdDir.contains(temp.getImdbNameId()) && temp.getCausasDeMuerte() != null && (temp.getBirthCountry().contains("UK") || temp.getBirthCountry().contains("USA") || temp.getBirthCountry().contains("France") || temp.getBirthCountry().contains("Italy"))) {
-                    HashProdDir.put(temp.getImdbNameId(), temp);
-                    Integer causa = HashCantCausas.get(temp.getCausasDeMuerte().getName());
+                if (!hashProdDir.contains(temp.getImdbNameId()) && temp.getCausasDeMuerte() != null && (temp.getBirthCountry().contains("UK") || temp.getBirthCountry().contains("USA") || temp.getBirthCountry().contains("France") || temp.getBirthCountry().contains("Italy"))) {
+                    hashProdDir.put(temp.getImdbNameId(), temp);
+                    Integer causa = hashCantCausas.get(temp.getCausasDeMuerte().getName());
                     if (causa != null) {
                         causa++;
-                        HashCantCausas.put(temp.getCausasDeMuerte().getName(), causa);//SET SE LE SUMA
-                        causa = HashCantCausas.get(temp.getCausasDeMuerte().getName());
+                        hashCantCausas.put(temp.getCausasDeMuerte().getName(), causa);//SET SE LE SUMA
+                        causa = hashCantCausas.get(temp.getCausasDeMuerte().getName());
                     } else {
-                        HashCantCausas.put(temp.getCausasDeMuerte().getName(), 1);
-                        causa = HashCantCausas.get(temp.getCausasDeMuerte().getName());
+                        hashCantCausas.put(temp.getCausasDeMuerte().getName(), 1);
+                        causa = hashCantCausas.get(temp.getCausasDeMuerte().getName());
                     }
                     if (listaTop5Death.size() < 5) {
                         listaTop5Death.addLast(temp.getCausasDeMuerte());
                     }else {
                         int pos = listaTop5Death.find(temp.getCausasDeMuerte());
                         if (pos != -1) {
-                            this.acomodarMuertes(pos, HashCantCausas, listaTop5Death);
-                        } else if (causa > HashCantCausas.get(listaTop5Death.get(4).getName())) {
+                            this.acomodarMuertes(pos, hashCantCausas, listaTop5Death);
+                        } else if (causa > hashCantCausas.get(listaTop5Death.get(4).getName())) {
                             listaTop5Death.addPisando(temp.getCausasDeMuerte(), 4);
                             pos = 4;
-                            this.acomodarMuertes(pos,HashCantCausas, listaTop5Death);
+                            this.acomodarMuertes(pos, hashCantCausas, listaTop5Death);
                         }
                     }
                 }
@@ -105,15 +105,16 @@ public class Consultas {
         double timeTotal = (double) dif2/1000000000;
         // Imprimo en pantalla lo correspondiente a la consulta 2
         for (int k = 0; k < 5; k++) {
-            System.out.println("\nCausa de muerte: " + listaTop5Death.get(k).getName() + "\nCantidad de personas: " + HashCantCausas.get(listaTop5Death.get(k).getName()) + "\n");
+            System.out.println("\nCausa de muerte: " + listaTop5Death.get(k).getName() + "\nCantidad de personas: " + hashCantCausas.get(listaTop5Death.get(k).getName()) + "\n");
         }
-        System.out.println( "\nTiempo deejecuciónde la consulta:" + "\n" + timeTotal);
+        System.out.println( "\nTiempo de ejecución de la consulta:" + "\n" + timeTotal);
     }
 
 
     // Consulta 3
     public void consulta3(ListaArray<ListaArray<Movie>> listaMoviesAños, MyHashTable<String,CastMember> hashCastMmeber) {
 
+        long firstTime = System.nanoTime();
         ListaArray<Movie> listaPeliMasWA = new ArrayList<>(14);
         ListaArray<Float> listaPromedios = new ArrayList<>(14);
         
@@ -140,19 +141,23 @@ public class Consultas {
             }
             listaPromedios.addLast(promedio / divisor);
         }
+        long lastTime = System.nanoTime();
+        long dif2 = lastTime - firstTime;
+        double timeTotal = (double) dif2/1000000000;
         for (int i = 0; i < 14; i++) {
             if (!listaPromedios.get(i).isNaN()) {
                 System.out.println("\nId película: " + listaPeliMasWA.get(i).getImdbTitleld() + "\nNombre: " + listaPeliMasWA.get(i).getTitle() + "\nAltura promedio de actores: " + listaPromedios.get(i));
             }
         }
+        System.out.println( "\nTiempo de ejecución de la consulta:" + "\n" + timeTotal);
     }
 
     // Consulta 4
     public void consulta4(MyHashTable<String,CastMember> hashCastMmeber, ListaArray<MovieCastMember> listaActores) {
         long firstTime = System.nanoTime();
-        MyHashTable<Integer, Integer> yearActores = new MyClosedHashImpl<>(5000, 1F); //FIXME
-        MyHashTable<Integer, Integer> yearActrices = new MyClosedHashImpl<>(5000, 1F); //FIXME
-        MyHashTable<String, CastMember> hashTotal = new MyClosedHashImpl<>(5000, 1F);//FIXME
+        MyHashTable<Integer, Integer> yearActores = new MyClosedHashImpl<>(500, 1F); //FIXME
+        MyHashTable<Integer, Integer> yearActrices = new MyClosedHashImpl<>(500, 1F); //FIXME
+        MyHashTable<String, CastMember> hashTotal = new MyClosedHashImpl<>(100000, 1F);//FIXME
         int cant=0;
         for (int i = 0; i < listaActores.size(); i++) { //  Recorro la lista de actores y actrices
             CastMember temp = hashCastMmeber.get(listaActores.get(i).getImdbNameId());
@@ -201,18 +206,18 @@ public class Consultas {
         long dif2 = lastTime - firstTime;
         double timeTotal = (double) dif2/1000000000;
         System.out.println("\nActores: "+"\nAño: "+yearMen+"\nCantidad: "+cantMen+"\nActrices: "+"\nAño: "+yearWomen+"\nCantidad: "+cantWomen);
-        System.out.println("Tiempo deejecucionde la consulta: "+timeTotal);
-    }
+        System.out.println("Tiempo de ejecucion de la consulta: "+timeTotal);
+        }
+
 
 
     // Consulta 5
     public void consulta5(ListaArray<MovieCastMember> listaActores, MyHashTable<String,CastMember> hashCastMmeber, MyHashTable<String, Movie> hashMovies){
 
         long firstTime = System.nanoTime();
-        MyHashTable<String, Integer> hashGenerosCant = new MyClosedHashImpl<>(50, 1F); //FIXME
-        MyHashTable<String, Movie> hashTotal = new MyClosedHashImpl<>(5000, 1F);// Peliculas que ya use
-        MyHashTable<String, MovieCastMember> auxiliarActoresConDosHijos = new MyClosedHashImpl<>(1000, 1f);// FIXME
-        ListaArray<Integer> top10generos = new ArrayList<>(10);
+        MyHashTable<String, Integer> hashGenerosCant = new MyClosedHashImpl<>(50, 1F); //Hay 23 generos
+        MyHashTable<String, Movie> hashTotal = new MyClosedHashImpl<>(80000, 1F);// Hay 46521
+        MyHashTable<String, MovieCastMember> auxiliarActoresConDosHijos = new MyClosedHashImpl<>(15000, 1f);// Hay 8842
         ListaArray<String> listKeys = new ArrayList<>(50);
 
         for(int i = 0;i < listaActores.size();i++){ // Recorro la lista de actores de MCM
@@ -269,12 +274,10 @@ public class Consultas {
             System.out.println("\nGenero pelicula: " + gen + "\nCantidad: " + cant);
         }
 
-
-
         long lastTime = System.nanoTime();
         long dif2 = lastTime - firstTime;
         double timeTotal = (double) dif2/1000000000;
-        System.out.println("Tiempo deejecucionde la consulta: "+timeTotal);
+        System.out.println("Tiempo de ejecucion de la consulta: "+timeTotal);
     }
 
 

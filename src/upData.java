@@ -20,8 +20,8 @@ public class upData {
     public upData(){ }
 
     // Inicializacion de las estructuras donde guardaremos los datos
-    private MyHashTable<String, CastMember> hashCastMember = new MyClosedHashImpl<>(300000,1f); // 297706
-    private MyHashTable<String,Movie> hashPeliculas = new MyClosedHashImpl<>(100000, 1f); // 85856
+    private MyHashTable<String, CastMember> hashCastMember = new MyClosedHashImpl<>(600000,1f); // 297706
+    private MyHashTable<String,Movie> hashPeliculas = new MyClosedHashImpl<>(200000, 1f); // 85856
     private ListaArray<ListaArray<MovieCastMember>> listaMovieCastMmeber = new ArrayList<>(3);
     public ListaArray<ListaArray<Movie>> listaPeliculasPorAño = new ArrayList<>(9);
 
@@ -45,7 +45,7 @@ public class upData {
     public void upNames() throws IOException {
         FileReader file = new FileReader("C:\\Users\\Usuario\\Desktop\\UM\\SEMESTRE 3\\PROGRAMACION 2\\DATOSOBLIGATORIO\\IMDb names.csv");
         BufferedReader reader = new BufferedReader(file);
-        MyHashTable<String, CauseOfDeath> hashCausasDeMuerte = new MyClosedHashImpl<>(4000,0.99999f); // El load factor no me importa pues nunca habra rehashing
+        MyHashTable<String, CauseOfDeath> hashCausasDeMuerte = new MyClosedHashImpl<>(5000,0.99999f); // El load factor no me importa pues nunca habra rehashing
 
         String[] miniSrtings = new String[17];
         reader.readLine(); //Para saltear la primera linea que es la que contiene info innecesaria
@@ -286,7 +286,7 @@ public class upData {
         listaPeliculasPorAño.addLast(novena);
     }
 
-    public void uPTitle() throws IOException { //HAY QUE VERIFICAR QUE ESTO ESTE BIEN FIXME
+    public void uPTitle() throws IOException {
 
         //Inicializo las tres listas de movie cast member de manera conveniente
         ListaArray<MovieCastMember> listaActores = new ArrayList<>(355770);
@@ -331,17 +331,17 @@ public class upData {
                 if (miniSrtings[3].contains("actress") || miniSrtings[3].contains("actor")){
                     //LO INGRESO AL ARRAY DE ACTRISES
                     listaMovieCastMmeber.get(0).addLast(newMC);
-                    hashCastMember.get(miniSrtings[2]).getMovieCastMemberActor().addLast(newMC);
+                    hashCastMember.get(miniSrtings[2]).agregarmovieCastMemberActores(newMC);
                     hashPeliculas.get(miniSrtings[0]).agregarmovieCastMemberActores(newMC);
                 }else if(miniSrtings[3].contains("director") || miniSrtings[3].contains("producer")){
                     //LO INGRESO AL ARRAY DE PRODDIR
                     listaMovieCastMmeber.get(1).addLast(newMC);
-                    hashCastMember.get(miniSrtings[2]).getMovieCastMemberDirProd().addLast(newMC);
+                    hashCastMember.get(miniSrtings[2]).agregarmovieCastMemberProdDire(newMC);
                     hashPeliculas.get(miniSrtings[0]).agregarmovieCastMemberProdDire(newMC);
                 }else{
                     //LO INGRESO A OTROS
                     listaMovieCastMmeber.get(2).addLast(newMC);
-                    hashCastMember.get(miniSrtings[2]).getMoviCastMemberOtros().addLast(newMC);
+                    hashCastMember.get(miniSrtings[2]).agregarmovieCastMemberOtros(newMC);
                     hashPeliculas.get(miniSrtings[0]).agregarmovieCastMemberOtros(newMC);
                 }
                 columna=0;

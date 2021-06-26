@@ -53,9 +53,9 @@ public class CastMember {
         this.spousesWithChilden = spousesWithChilden;
         this.children = children;
         this.causasDeMuerte = causaDeMuerte;
-        this.movieCastMemberActor = new ArrayList<>(100);
-        this.movieCastMemberDirProd = new ArrayList<>(100);
-        this.moviCastMemberOtros = new ArrayList<>(100);
+        this.movieCastMemberActor = new ArrayList<>(200);
+        this.movieCastMemberDirProd = new ArrayList<>(200);
+        this.moviCastMemberOtros = new ArrayList<>(200);
     }
 
 
